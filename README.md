@@ -1,4 +1,4 @@
-# Laravel E-commerce MCP Server
+# Laravel MCP Server
 
 > A **Laravel MCP server** providing comprehensive business intelligence, analytics, and data management tools for AI assistants like Claude.
 
@@ -75,7 +75,7 @@ This Laravel application implements a fully functional **Model Context Protocol 
 
 - **Docker** installed and running
 - **Composer** (for local development)
-- **Claude Desktop** (optional, for AI integration)
+- **MCP local Client** (e.g., Claude Desktop, Cursor, Copilot, Junie, even Gordon -- see [MCP Clients](https://modelcontextprotocol.io/clients/) for options)
 
 ### Installation
 
@@ -104,23 +104,9 @@ This will create:
 - 101 payments
 - **Total Revenue**: €929,574.57
 
-### Testing the Setup
-
-```bash
-# List all available MCP tools
-./vendor/bin/sail artisan mcp:list
-
-# Test all MCP tools
-./vendor/bin/sail php test_mcp_tools.php
-
-# Start development environment (web server + queue + logs + Vite)
-composer run dev
-```
-
 Your application will be available at:
 - **Web**: http://localhost:8000
 - **phpMyAdmin**: http://localhost:8080
-- **Vite Dev Server**: http://localhost:5173
 
 ---
 
