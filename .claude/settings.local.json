@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__MCP_DOCKER__resolve-library-id",
+      "mcp__MCP_DOCKER__get-library-docs",
+      "Bash(./vendor/bin/sail composer require:*)",
+      "Bash(composer require:*)",
+      "Bash(./vendor/bin/sail artisan vendor:publish:*)",
+      "Bash(./vendor/bin/sail artisan:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
