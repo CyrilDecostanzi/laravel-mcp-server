@@ -2,8 +2,8 @@
 
 namespace App\Mcp\Tools;
 
+use App\Services\System\SystemHealthService;
 use Illuminate\JsonSchema\JsonSchema;
-use Illuminate\Support\Facades\DB;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -17,35 +17,18 @@ class GetDatabaseInfoTool extends Tool
         Get detailed database statistics and table information. Returns list of tables with row counts and sizes.
     MARKDOWN;
 
+    public function __construct(
+        private readonly SystemHealthService $systemHealthService
+    ) {}
+
     /**
      * Handle the tool request.
      */
     public function handle(Request $request): Response
     {
-        $connection = DB::connection();
-        $tables = DB::select('SHOW TABLES');
-        $databaseName = $connection->getDatabaseName();
+        $result = $this->systemHealthService->getDatabaseInfo();
 
-        $tableInfo = [];
-        foreach ($tables as $table) {
-            $tableName = $table->{"Tables_in_{$databaseName}"};
-            $rowCount = DB::table($tableName)->count();
-
-            $tableInfo[] = [
-                'name' => $tableName,
-                'rows' => $rowCount,
-            ];
-        }
-
-        $data = [
-            'database' => $databaseName,
-            'driver' => $connection->getDriverName(),
-            'total_tables' => count($tableInfo),
-            'tables' => $tableInfo,
-            'timestamp' => now()->toISOString(),
-        ];
-
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
     }
 
     /**

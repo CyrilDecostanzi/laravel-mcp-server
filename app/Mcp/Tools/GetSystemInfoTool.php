@@ -2,8 +2,8 @@
 
 namespace App\Mcp\Tools;
 
+use App\Services\System\SystemHealthService;
 use Illuminate\JsonSchema\JsonSchema;
-use Illuminate\Support\Facades\DB;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -17,42 +17,18 @@ class GetSystemInfoTool extends Tool
         Get comprehensive application and system information. Returns Laravel version, PHP version, environment, database info, and more.
     MARKDOWN;
 
+    public function __construct(
+        private readonly SystemHealthService $systemHealthService
+    ) {}
+
     /**
      * Handle the tool request.
      */
     public function handle(Request $request): Response
     {
-        $data = [
-            'application' => [
-                'name' => config('app.name'),
-                'environment' => app()->environment(),
-                'debug' => config('app.debug'),
-                'url' => config('app.url'),
-                'timezone' => config('app.timezone'),
-                'locale' => config('app.locale'),
-                'laravel_version' => app()->version(),
-            ],
-            'php' => [
-                'version' => PHP_VERSION,
-                'os' => PHP_OS,
-                'memory_limit' => ini_get('memory_limit'),
-                'max_execution_time' => ini_get('max_execution_time'),
-            ],
-            'database' => [
-                'connection' => config('database.default'),
-                'driver' => DB::connection()->getDriverName(),
-                'database' => DB::connection()->getDatabaseName(),
-            ],
-            'cache' => [
-                'driver' => config('cache.default'),
-            ],
-            'queue' => [
-                'driver' => config('queue.default'),
-            ],
-            'timestamp' => now()->toISOString(),
-        ];
+        $result = $this->systemHealthService->getSystemInfo();
 
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
     }
 
     /**

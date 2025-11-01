@@ -1,6 +1,6 @@
 # Laravel E-commerce MCP Server
 
-> A **Laravel 12 E-commerce MCP (Model Context Protocol) server** providing comprehensive business intelligence, analytics, and data management tools for AI assistants like Claude.
+> A **Laravel MCP server** providing comprehensive business intelligence, analytics, and data management tools for AI assistants like Claude.
 
 [![Laravel](https://img.shields.io/badge/Laravel-12.36.1-FF2D20?logo=laravel)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.4.14-777BB4?logo=php)](https://php.net)
@@ -58,10 +58,12 @@ This Laravel application implements a fully functional **Model Context Protocol 
 
 **Key Capabilities:**
 - 15 production-ready MCP tools for e-commerce operations
+- **Clean architecture with service layer** - Business logic separated from MCP tools
 - Real-time sales analytics and revenue tracking
 - Inventory management and alerts
 - Customer insights and segmentation
 - System health monitoring
+- **Dependency injection** - Services automatically injected into tools
 - Auto-discovery of tools using PHP 8 attributes
 - Multiple transport protocols (STDIO, HTTP)
 
@@ -204,31 +206,90 @@ Complete e-commerce schema with:
 
 ## Architecture
 
+This project follows a **clean layered architecture** with clear separation of concerns:
+
 ```
-┌─────────────────────────────────────────────┐
-│         AI Assistant (Claude)               │
-└───────────────────┬─────────────────────────┘
-                    │ MCP Protocol
-                    │ (STDIO or HTTP)
-┌───────────────────▼─────────────────────────┐
-│         Laravel MCP Server                  │
-│  ┌─────────────────────────────────────┐   │
-│  │   LaravelMcpService                 │   │
-│  │   - 15 E-commerce Tools             │   │
-│  │   - 2 Resources                     │   │
-│  │   - Schema Validation               │   │
-│  └──────────────┬──────────────────────┘   │
-│                 │                            │
-│  ┌──────────────▼──────────────────────┐   │
-│  │   Laravel Application               │   │
-│  │   - Eloquent ORM                    │   │
-│  │   - MySQL Database                  │   │
-│  │   - Cache (Database)                │   │
-│  │   - Queue (Database)                │   │
-│  │   - Sanctum Auth                    │   │
-│  └─────────────────────────────────────┘   │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│            AI Assistant (Claude)                    │
+└──────────────────────┬──────────────────────────────┘
+                       │ MCP Protocol
+                       │ (STDIO or HTTP)
+┌──────────────────────▼──────────────────────────────┐
+│              Laravel MCP Server                     │
+│                                                      │
+│  ┌────────────────────────────────────────────┐    │
+│  │         MCP Tools Layer (15 tools)         │    │
+│  │  - Request validation                      │    │
+│  │  - Schema definition                       │    │
+│  │  - Response formatting                     │    │
+│  │  - Thin controllers (delegation only)     │    │
+│  └──────────────────┬─────────────────────────┘    │
+│                     │ Dependency Injection           │
+│  ┌──────────────────▼─────────────────────────┐    │
+│  │         Business Logic Layer               │    │
+│  │                                             │    │
+│  │  ┌──────────────────────────────────┐     │    │
+│  │  │  User Service                     │     │    │
+│  │  │  - User management                │     │    │
+│  │  │  - Statistics & search            │     │    │
+│  │  └──────────────────────────────────┘     │    │
+│  │                                             │    │
+│  │  ┌──────────────────────────────────┐     │    │
+│  │  │  Analytics Services               │     │    │
+│  │  │  - Sales analytics                │     │    │
+│  │  │  - Customer insights              │     │    │
+│  │  └──────────────────────────────────┘     │    │
+│  │                                             │    │
+│  │  ┌──────────────────────────────────┐     │    │
+│  │  │  Inventory Service                │     │    │
+│  │  │  - Stock alerts                   │     │    │
+│  │  │  - Product search                 │     │    │
+│  │  └──────────────────────────────────┘     │    │
+│  │                                             │    │
+│  │  ┌──────────────────────────────────┐     │    │
+│  │  │  Order & Invoice Services         │     │    │
+│  │  └──────────────────────────────────┘     │    │
+│  │                                             │    │
+│  │  ┌──────────────────────────────────┐     │    │
+│  │  │  System Health Service            │     │    │
+│  │  └──────────────────────────────────┘     │    │
+│  └──────────────────┬─────────────────────────┘    │
+│                     │                                │
+│  ┌──────────────────▼─────────────────────────┐    │
+│  │         Data Access Layer                  │    │
+│  │  - Eloquent Models                         │    │
+│  │  - Query Builders                          │    │
+│  │  - Database Relationships                  │    │
+│  └──────────────────┬─────────────────────────┘    │
+│                     │                                │
+│  ┌──────────────────▼─────────────────────────┐    │
+│  │         Infrastructure Layer               │    │
+│  │  - MySQL Database                          │    │
+│  │  - Cache (Database)                        │    │
+│  │  - Queue (Database)                        │    │
+│  │  - Sanctum Auth                            │    │
+│  └────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────┘
 ```
+
+### Architecture Principles
+
+**1. Separation of Concerns**
+- MCP Tools: Handle request/response only
+- Services: Contain all business logic
+- Models: Represent data and relationships
+
+**2. Dependency Injection**
+- Services injected into tools via constructor
+- Laravel's service container manages dependencies
+- Easy to test and maintain
+
+**3. Single Responsibility**
+- Each service has one clear purpose
+- Services are grouped by domain (User, Analytics, etc.)
+- Methods are focused and reusable
+
+📖 **For detailed architecture documentation**, see [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ---
 

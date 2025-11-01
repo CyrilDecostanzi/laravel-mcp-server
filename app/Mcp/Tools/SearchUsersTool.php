@@ -2,7 +2,7 @@
 
 namespace App\Mcp\Tools;
 
-use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
@@ -17,6 +17,10 @@ class SearchUsersTool extends Tool
         Search for users by name or email. Returns a list of matching users with their details.
     MARKDOWN;
 
+    public function __construct(
+        private readonly UserService $userService
+    ) {}
+
     /**
      * Handle the tool request.
      */
@@ -27,28 +31,12 @@ class SearchUsersTool extends Tool
             'limit' => 'integer|min:1|max:50',
         ]);
 
-        $query = $validated['query'];
-        $limit = $validated['limit'] ?? 10;
+        $result = $this->userService->searchUsers(
+            $validated['query'],
+            $validated['limit'] ?? 10
+        );
 
-        $users = User::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('email', 'LIKE', "%{$query}%")
-            ->limit($limit)
-            ->get();
-
-        $data = [
-            'query' => $query,
-            'total_results' => $users->count(),
-            'limit' => $limit,
-            'users' => $users->map(fn($user) => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'created_at' => $user->created_at->toISOString(),
-                'updated_at' => $user->updated_at->toISOString(),
-            ])->toArray(),
-        ];
-
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
     }
 
     /**

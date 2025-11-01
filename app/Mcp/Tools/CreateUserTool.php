@@ -2,7 +2,7 @@
 
 namespace App\Mcp\Tools;
 
-use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
@@ -17,6 +17,10 @@ class CreateUserTool extends Tool
         Create a new user account with validation. Returns the created user details.
     MARKDOWN;
 
+    public function __construct(
+        private readonly UserService $userService
+    ) {}
+
     /**
      * Handle the tool request.
      */
@@ -28,32 +32,9 @@ class CreateUserTool extends Tool
             'password' => 'required|string|min:8|max:255',
         ]);
 
-        // Check if user already exists
-        if (User::where('email', $validated['email'])->exists()) {
-            return Response::text(json_encode([
-                'success' => false,
-                'error' => "User with email {$validated['email']} already exists",
-            ], JSON_PRETTY_PRINT));
-        }
+        $result = $this->userService->createUser($validated);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-        ]);
-
-        $data = [
-            'success' => true,
-            'message' => 'User created successfully',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'created_at' => $user->created_at->toISOString(),
-            ],
-        ];
-
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
     }
 
     /**

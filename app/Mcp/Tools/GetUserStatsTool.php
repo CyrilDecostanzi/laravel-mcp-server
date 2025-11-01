@@ -2,9 +2,8 @@
 
 namespace App\Mcp\Tools;
 
-use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\JsonSchema\JsonSchema;
-use Illuminate\Support\Facades\DB;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -18,38 +17,18 @@ class GetUserStatsTool extends Tool
         Get comprehensive user statistics from the database. Returns total users, recently created users, and user distribution.
     MARKDOWN;
 
+    public function __construct(
+        private readonly UserService $userService
+    ) {}
+
     /**
      * Handle the tool request.
      */
     public function handle(Request $request): Response
     {
-        $totalUsers = User::count();
-        $recentUsers = User::where('created_at', '>=', now()->subDays(7))->count();
-        $usersToday = User::whereDate('created_at', today())->count();
-        $oldestUser = User::orderBy('created_at', 'asc')->first();
-        $newestUser = User::orderBy('created_at', 'desc')->first();
+        $result = $this->userService->getUserStats();
 
-        $data = [
-            'total_users' => $totalUsers,
-            'users_last_7_days' => $recentUsers,
-            'users_today' => $usersToday,
-            'oldest_user' => $oldestUser ? [
-                'id' => $oldestUser->id,
-                'name' => $oldestUser->name,
-                'email' => $oldestUser->email,
-                'created_at' => $oldestUser->created_at->toISOString(),
-            ] : null,
-            'newest_user' => $newestUser ? [
-                'id' => $newestUser->id,
-                'name' => $newestUser->name,
-                'email' => $newestUser->email,
-                'created_at' => $newestUser->created_at->toISOString(),
-            ] : null,
-            'database_connection' => DB::connection()->getDatabaseName(),
-            'timestamp' => now()->toISOString(),
-        ];
-
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
     }
 
     /**
