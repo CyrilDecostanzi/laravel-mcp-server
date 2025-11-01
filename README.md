@@ -327,6 +327,19 @@ The application runs entirely in Docker using Laravel Sail. Services include:
 -   **mysql** - MySQL 8.0 database
 -   **phpmyadmin** - Database management UI
 
+#### Exposed Ports
+
+| Port | Service                      | Access URL                    |
+| ---- | ---------------------------- | ----------------------------- |
+| 80   | Laravel Application          | http://localhost              |
+| 3307 | MySQL Database               | localhost:3307                |
+| 5173 | Vite Dev Server              | http://localhost:5173         |
+| 6274 | MCP Inspector UI             | http://localhost:6274         |
+| 6277 | MCP Inspector Proxy          | localhost:6277                |
+| 8080 | phpMyAdmin                   | http://localhost:8080         |
+
+**Note**: The MCP Inspector is configured with `HOST=0.0.0.0` in the Docker environment to make it accessible from your host machine.
+
 ### Environment Variables
 
 Key configuration in `.env`:
@@ -499,8 +512,9 @@ protected array $tools = [
 
 ```bash
 # Use MCP Inspector to test
-./vendor/bin/sail artisan mcp:inspector
+./vendor/bin/sail artisan mcp:inspector laravel
 
+# Then open http://localhost:6274 in your browser
 # Or restart Claude Desktop to see the new tool
 ```
 
@@ -685,10 +699,44 @@ Connect to the database using your favorite client:
 
 ### MCP Tools Testing
 
-```bash
-# Use MCP Inspector to test all tools interactively
-./vendor/bin/sail artisan mcp:inspector
+#### Using MCP Inspector (Recommended)
 
+The MCP Inspector provides a web-based interface to test all your MCP tools interactively:
+
+```bash
+# Start the MCP Inspector
+./vendor/bin/sail artisan mcp:inspector laravel
+```
+
+This will start the inspector and display output like:
+
+```
+Starting MCP inspector...
+⚙️ Proxy server listening on 0.0.0.0:6277
+🔑 Session token: [your-token-here]
+
+🚀 MCP Inspector is up and running at:
+   http://0.0.0.0:6274/?MCP_PROXY_AUTH_TOKEN=[your-token-here]
+```
+
+**Access the Inspector:**
+- Open your browser to: `http://localhost:6274`
+- Copy the authentication token from the console output and paste it when prompted
+- The inspector will show all available tools, resources, and allow you to test them interactively
+
+**Features:**
+- 🔍 View all registered MCP tools and resources
+- 🧪 Test tools with custom parameters
+- 📊 View real-time request/response data
+- 🐛 Debug tool schemas and validation
+
+**Docker Note:** The inspector is configured with `HOST=0.0.0.0` in `compose.yaml` to ensure it's accessible from your host machine. Ports `6274` (UI) and `6277` (proxy) are exposed in the Docker configuration.
+
+#### Using Tinker
+
+For direct service testing without the inspector:
+
+```bash
 # Test services in Tinker
 ./vendor/bin/sail artisan tinker
 >>> $userService = app(\App\Services\User\UserService::class);
@@ -771,8 +819,38 @@ sudo chown -R $USER:$USER storage bootstrap/cache
 # Restart Claude Desktop after making changes
 
 # Test with MCP Inspector
-./vendor/bin/sail artisan mcp:inspector
+./vendor/bin/sail artisan mcp:inspector laravel
+# Then open http://localhost:6274 in your browser
 ```
+
+### MCP Inspector Not Accessible
+
+If the MCP Inspector is not accessible from your browser:
+
+1. **Check that HOST environment variable is set** in `compose.yaml`:
+   ```yaml
+   environment:
+       HOST: '0.0.0.0'  # Required for Docker accessibility
+   ```
+
+2. **Verify ports are exposed** in `compose.yaml`:
+   ```yaml
+   ports:
+       - '6274:6274'  # MCP Inspector
+       - '6277:6277'  # MCP Inspector Proxy
+   ```
+
+3. **Restart containers** after configuration changes:
+   ```bash
+   ./vendor/bin/sail down
+   ./vendor/bin/sail up -d
+   ```
+
+4. **Check if inspector is listening on all interfaces**:
+   ```bash
+   docker exec laravel-mcp-server-laravel.test-1 netstat -tulpn | grep 6274
+   # Should show: 0.0.0.0:6274 (not 127.0.0.1 or ::1)
+   ```
 
 ### Clear All Caches
 
