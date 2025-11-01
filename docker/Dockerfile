@@ -72,6 +72,9 @@ RUN if getent group $WWWGROUP > /dev/null 2>&1; then \
     && mkdir -p /.composer \
     && chown -R sail:sail /.composer
 
+# Create supervisor log directory
+RUN mkdir -p /var/log/supervisor
+
 # Configure Git
 RUN git config --global --add safe.directory /var/www/html
 

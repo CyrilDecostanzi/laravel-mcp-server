@@ -2,11 +2,11 @@
 
 > A **Laravel MCP server** providing comprehensive business intelligence, analytics, and data management tools for AI assistants like Claude.
 
-[![Laravel](https://img.shields.io/badge/Laravel-12.36.1-FF2D20?logo=laravel)](https://laravel.com)
-[![PHP](https://img.shields.io/badge/PHP-8.4.14-777BB4?logo=php)](https://php.net)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0.32-4479A1?logo=mysql)](https://www.mysql.com)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?logo=laravel)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)](https://www.mysql.com)
 [![Docker](https://img.shields.io/badge/Docker-Sail-2496ED?logo=docker)](https://laravel.com/docs/sail)
-[![MCP](https://img.shields.io/badge/MCP-php--mcp%2Flaravel-blue)](https://github.com/php-mcp/laravel)
+[![MCP](https://img.shields.io/badge/MCP-laravel%2Fmcp-blue)](https://github.com/laravel/mcp)
 
 ---
 
@@ -185,15 +185,15 @@ Complete e-commerce schema with:
 
 ## Tech Stack
 
-| Component           | Version                | Purpose                   |
-| ------------------- | ---------------------- | ------------------------- |
-| **Laravel**         | 12.36.1                | Application framework     |
-| **PHP**             | 8.4.14                 | Runtime                   |
-| **MySQL**           | 8.0.32                 | Database                  |
-| **MCP Package**     | php-mcp/laravel v0.3.2 | MCP server implementation |
-| **Docker**          | Laravel Sail           | Development environment   |
-| **Laravel Sanctum** | -                      | API authentication        |
-| **Laravel Breeze**  | -                      | Auth scaffolding          |
+| Component           | Version            | Purpose                   |
+| ------------------- | ------------------ | ------------------------- |
+| **Laravel**         | ^12.0              | Application framework     |
+| **PHP**             | ^8.2 (8.4 Alpine)  | Runtime                   |
+| **MySQL**           | 8.0                | Database                  |
+| **MCP Package**     | laravel/mcp ^0.3.2 | MCP server implementation |
+| **Docker**          | Laravel Sail       | Development environment   |
+| **Laravel Sanctum** | ^4.0               | API authentication        |
+| **Laravel Breeze**  | ^2.3               | Auth scaffolding          |
 
 ---
 
@@ -309,8 +309,8 @@ Add to your Claude Desktop configuration:
                 "laravel-mcp-server-laravel.test-1",
                 "php",
                 "artisan",
-                "mcp:serve",
-                "--transport=stdio"
+                "mcp:start",
+                "laravel"
             ]
         }
     }
@@ -357,43 +357,6 @@ FORWARD_PHPMYADMIN_PORT=8080
 ---
 
 ## Usage
-
-### Starting the Server
-
-```bash
-# Start all containers
-./vendor/bin/sail up -d
-
-# Start development environment (server + queue + logs + Vite)
-composer run dev
-
-# Start MCP server (STDIO for Claude Desktop)
-./vendor/bin/sail artisan mcp:serve --transport=stdio
-
-# Start MCP server (HTTP for web integrations)
-./vendor/bin/sail artisan mcp:serve --transport=http
-# Available at: http://localhost:8000/mcp
-```
-
-### MCP Commands
-
-```bash
-# Discover and register MCP tools
-./vendor/bin/sail artisan mcp:discover
-
-# List all MCP elements
-./vendor/bin/sail artisan mcp:list
-
-# List specific type
-./vendor/bin/sail artisan mcp:list tools
-./vendor/bin/sail artisan mcp:list resources
-
-# JSON output
-./vendor/bin/sail artisan mcp:list --json
-
-# Test MCP tools
-./vendor/bin/sail php test_mcp_tools.php
-```
 
 ### Example Interactions
 
@@ -442,42 +405,57 @@ laravel-mcp-server/
 │   ├── Http/Controllers/
 │   ├── Models/              # User, Product, Order, etc.
 │   ├── Mcp/
-│   │   └── Tools/          # MCP Tool classes
-│   └── Services/
-│       └── LaravelMcpService.php  # Main MCP service
+│   │   ├── Tools/           # MCP Tool classes (15 tools)
+│   │   ├── Resources/       # MCP Resource classes (2 resources)
+│   │   └── Servers/         # LaravelServer.php
+│   └── Services/            # Business logic services
+│       ├── Analytics/       # SalesAnalyticsService, CustomerInsightsService
+│       ├── Inventory/       # InventoryService
+│       ├── Invoice/         # InvoiceService
+│       ├── Order/           # OrderService
+│       ├── System/          # SystemHealthService
+│       └── User/            # UserService
 ├── bootstrap/
 │   └── app.php             # Application bootstrap
-├── config/
-│   └── mcp.php             # MCP configuration
+├── config/                 # Application configuration
 ├── database/
 │   ├── factories/          # Model factories
 │   ├── migrations/         # Database migrations
 │   └── seeders/            # DatabaseSeeder
 ├── docker/
-│   ├── 8.4/                # PHP 8.4 Dockerfile
-│   └── mysql/
+│   ├── Dockerfile          # PHP 8.4 Alpine image
+│   ├── mysql/
+│   ├── php.ini
+│   ├── supervisord.conf
+│   └── start-container
 ├── routes/
-│   ├── api.php             # API routes
-│   ├── mcp.php             # MCP routes
+│   ├── ai.php              # MCP server registration
+│   ├── api.php             # API routes (Breeze auth)
+│   ├── auth.php            # Auth routes
+│   ├── console.php         # Console routes
 │   └── web.php             # Web routes
 ├── tests/
 │   ├── Feature/
 │   └── Unit/
 ├── compose.yaml            # Docker Compose config
-├── test_mcp_tools.php      # MCP testing script
 └── README.md               # This file
 ```
 
 ### Adding New MCP Tools
 
-1. **Create a tool class** in `app/Mcp/Tools/`:
+1. **Generate a new tool using artisan**:
+
+```bash
+./vendor/bin/sail artisan make:mcp-tool YourToolName
+```
+
+This creates a tool class in `app/Mcp/Tools/YourToolName.php`:
 
 ```php
 <?php
 
 namespace App\Mcp\Tools;
 
-use Illuminate\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -488,11 +466,7 @@ class YourToolName extends Tool
 
     public function handle(Request $request): Response
     {
-        $validated = $request->validate([
-            'param1' => 'required|string',
-        ]);
-
-        // Your logic here
+        // Your logic here using services
         $data = [
             'result' => 'value',
         ];
@@ -500,41 +474,76 @@ class YourToolName extends Tool
         return Response::text(json_encode($data, JSON_PRETTY_PRINT));
     }
 
-    public function schema(JsonSchema $schema): array
+    public function schema(): array
     {
         return [
-            'param1' => $schema->string()
-                ->description('Parameter description')
-                ->required(),
+            'param1' => [
+                'type' => 'string',
+                'description' => 'Parameter description',
+            ],
         ];
     }
 }
 ```
 
-2. **Discover the new tool**:
+2. **Register the tool** in `app/Mcp/Servers/LaravelServer.php`:
+
+```php
+protected array $tools = [
+    // ... existing tools
+    YourToolName::class,
+];
+```
+
+3. **Test the tool**:
 
 ```bash
-./vendor/bin/sail artisan mcp:discover
-./vendor/bin/sail artisan mcp:list
+# Use MCP Inspector to test
+./vendor/bin/sail artisan mcp:inspector
+
+# Or restart Claude Desktop to see the new tool
 ```
 
 ### Adding New Resources
 
-Add methods to `LaravelMcpService.php` with the `#[McpResource]` attribute:
+1. **Generate a new resource using artisan**:
+
+```bash
+./vendor/bin/sail artisan make:mcp-resource YourResourceName
+```
+
+2. **Implement the resource** in `app/Mcp/Resources/YourResourceName.php`:
 
 ```php
-use PhpMcp\Server\Attributes\McpResource;
+<?php
 
-#[McpResource(
-    uri: 'your://resource/uri',
-    mimeType: 'application/json'
-)]
-public function yourResource(): array
+namespace App\Mcp\Resources;
+
+use Laravel\Mcp\Server\Resource;
+
+class YourResourceName extends Resource
 {
-    return [
-        'data' => 'value',
-    ];
+    protected string $uri = 'your://resource/uri';
+    protected ?string $name = 'Your Resource Name';
+    protected ?string $description = 'Your resource description';
+    protected string $mimeType = 'application/json';
+
+    public function content(): string
+    {
+        return json_encode([
+            'data' => 'value',
+        ], JSON_PRETTY_PRINT);
+    }
 }
+```
+
+3. **Register the resource** in `app/Mcp/Servers/LaravelServer.php`:
+
+```php
+protected array $resources = [
+    // ... existing resources
+    YourResourceName::class,
+];
 ```
 
 ### Common Commands
@@ -677,17 +686,19 @@ Connect to the database using your favorite client:
 ### MCP Tools Testing
 
 ```bash
-# Test all MCP tools
-./vendor/bin/sail php test_mcp_tools.php
+# Use MCP Inspector to test all tools interactively
+./vendor/bin/sail artisan mcp:inspector
 
-# List available tools
-./vendor/bin/sail artisan mcp:list
-
-# Test in Tinker
+# Test services in Tinker
 ./vendor/bin/sail artisan tinker
->>> $service = new App\Services\LaravelMcpService();
->>> $service->getSalesStats();
->>> $service->getInventoryAlerts();
+>>> $userService = app(\App\Services\User\UserService::class);
+>>> $userService->getUserStats();
+>>>
+>>> $salesService = app(\App\Services\Analytics\SalesAnalyticsService::class);
+>>> $salesService->getSalesStats();
+>>>
+>>> $inventoryService = app(\App\Services\Inventory\InventoryService::class);
+>>> $inventoryService->getInventoryAlerts();
 ```
 
 ### Laravel Tests
@@ -750,12 +761,17 @@ docker system prune -f
 sudo chown -R $USER:$USER storage bootstrap/cache
 ```
 
-### Tools Not Discovered
+### MCP Tools Not Working
 
 ```bash
-./vendor/bin/sail artisan config:clear
-./vendor/bin/sail artisan mcp:discover
-./vendor/bin/sail artisan mcp:list
+# Clear all caches
+./vendor/bin/sail artisan optimize:clear
+
+# Check if tools are registered in app/Mcp/Servers/LaravelServer.php
+# Restart Claude Desktop after making changes
+
+# Test with MCP Inspector
+./vendor/bin/sail artisan mcp:inspector
 ```
 
 ### Clear All Caches
@@ -766,7 +782,7 @@ sudo chown -R $USER:$USER storage bootstrap/cache
 
 ### CSRF Token Errors
 
-The MCP HTTP transport uses `api` middleware which doesn't require CSRF tokens by default. If you encounter CSRF issues, check `config/mcp.php`.
+The MCP server uses STDIO transport for Claude Desktop, which doesn't require CSRF tokens. For HTTP-based MCP servers, configure the web transport in `routes/ai.php`.
 
 ### Database Connection Issues
 
@@ -787,18 +803,20 @@ The MCP HTTP transport uses `api` middleware which doesn't require CSRF tokens b
 
 ### Process Supervisor
 
-Use Supervisor to keep the MCP server running:
+Use Supervisor to keep the MCP server running (for HTTP-based deployments):
 
 ```ini
 [program:laravel-mcp]
 process_name=%(program_name)s
-command=php /var/www/laravel/artisan mcp:serve --transport=http
+command=php /var/www/laravel/artisan mcp:start laravel
 autostart=true
 autorestart=true
 user=www-data
 redirect_stderr=true
 stdout_logfile=/var/log/laravel-mcp.log
 ```
+
+**Note**: For Claude Desktop integration, you typically use STDIO transport via Docker exec (see Claude Desktop Setup section). HTTP transport is used for web-based MCP clients.
 
 ### Environment Configuration
 
@@ -837,9 +855,7 @@ composer install --optimize-autoloader --no-dev
 
 -   MCP tools have **direct database access** - implement authorization in production
 -   Validate all inputs using `#[Schema]` attributes
--   Use environment-specific configurations
 -   Consider **rate limiting** for HTTP transport
--   Never commit `.env` file - contains sensitive credentials
 -   Enable **HTTPS** in production
 -   Implement **API authentication** for MCP HTTP endpoints
 -   Review and audit tool permissions regularly
@@ -867,12 +883,13 @@ This project is open-sourced software licensed under the [MIT license](https://o
 
 ## Resources & Documentation
 
--   **php-mcp/laravel**: [github.com/php-mcp/laravel](https://github.com/php-mcp/laravel)
+-   **laravel/mcp**: [github.com/laravel/mcp](https://github.com/laravel/mcp)
 -   **MCP Specification**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+-   **MCP Clients**: [modelcontextprotocol.io/clients](https://modelcontextprotocol.io/clients)
 -   **Laravel Documentation**: [laravel.com/docs](https://laravel.com/docs)
 -   **Laravel Sail**: [laravel.com/docs/sail](https://laravel.com/docs/sail)
 
 ---
 
-**Built with Laravel 12, PHP 8.4, and php-mcp/laravel**
+**Built with Laravel 12, PHP 8.4 Alpine, and laravel/mcp**
 **Created: November 2025**
