@@ -87,6 +87,9 @@ cd laravel-mcp-server
 # 2. Install dependencies (if not already done)
 composer install
 
+# 3. Build image
+./vendor/bin/sail build --no-cache
+
 # 3. Start Docker containers
 ./vendor/bin/sail up -d
 
