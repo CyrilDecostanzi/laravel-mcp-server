@@ -76,18 +76,18 @@ class SalesAnalyticsService
      */
     public function getRevenueByPeriod(string $period = 'daily', int $limit = 30): array
     {
-        $groupFormat = match($period) {
+        $groupFormat = match ($period) {
             'weekly' => '%Y-%u',
             'monthly' => '%Y-%m',
             default => '%Y-%m-%d',
         };
 
         $revenues = Order::select(
-                DB::raw("DATE_FORMAT(created_at, '{$groupFormat}') as period"),
-                DB::raw('COUNT(*) as orders'),
-                DB::raw('SUM(total) as revenue'),
-                DB::raw('AVG(total) as avg_order_value')
-            )
+            DB::raw("DATE_FORMAT(created_at, '{$groupFormat}') as period"),
+            DB::raw('COUNT(*) as orders'),
+            DB::raw('SUM(total) as revenue'),
+            DB::raw('AVG(total) as avg_order_value')
+        )
             ->groupBy('period')
             ->orderBy('period', 'desc')
             ->limit($limit)
@@ -122,7 +122,7 @@ class SalesAnalyticsService
                 'products.sku',
                 'products.price',
                 DB::raw('SUM(order_items.quantity) as total_quantity'),
-                DB::raw('SUM(order_items.price * order_items.quantity) as total_revenue'),
+                DB::raw('SUM(order_items.unit_price * order_items.quantity) as total_revenue'),
                 DB::raw('COUNT(DISTINCT order_items.order_id) as orders_count')
             )
             ->groupBy('products.id', 'products.name', 'products.sku', 'products.price')
@@ -154,13 +154,13 @@ class SalesAnalyticsService
     {
         $query = Order::query();
 
-        match($period) {
+        match ($period) {
             'today' => $query->whereDate('created_at', today()),
             'this_week' => $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]),
             'this_month' => $query->whereYear('created_at', now()->year)
-                                 ->whereMonth('created_at', now()->month),
+                ->whereMonth('created_at', now()->month),
             'last_month' => $query->whereYear('created_at', now()->subMonth()->year)
-                                  ->whereMonth('created_at', now()->subMonth()->month),
+                ->whereMonth('created_at', now()->subMonth()->month),
             default => $query,
         };
 
