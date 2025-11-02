@@ -25,29 +25,29 @@ A production-ready **Laravel MCP (Model Context Protocol) server** that bridges 
 
 ### What Makes This Special?
 
-- **15 Production-Ready MCP Tools** - Comprehensive e-commerce operations coverage
-- **Clean Architecture** - Service layer pattern with dependency injection
-- **Complete E-commerce Dataset** - 500+ orders, 200 products, realistic analytics
-- **Docker-First** - Fully containerized with Laravel Sail
-- **Real-Time Analytics** - Revenue tracking, customer segmentation, inventory alerts
-- **Developer-Friendly** - Auto-discovery, MCP Inspector integration, extensive documentation
-- **Battle-Tested Stack** - Laravel 12, PHP 8.4, MySQL 8.0
+-   **15 Production-Ready MCP Tools** - Comprehensive e-commerce operations coverage
+-   **Clean Architecture** - Service layer pattern with dependency injection
+-   **Complete E-commerce Dataset** - 500+ orders, 200 products, realistic analytics
+-   **Docker-First** - Fully containerized with Laravel Sail
+-   **Real-Time Analytics** - Revenue tracking, customer segmentation, inventory alerts
+-   **Developer-Friendly** - Auto-discovery, MCP Inspector integration, extensive documentation
+-   **Battle-Tested Stack** - Laravel 12, PHP 8.4, MySQL 8.0
 
 ---
 
 ## Table of Contents
 
-- [Features](#-features)
-- [Quick Start](#-quick-start)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#-architecture)
-- [Configuration](#-configuration)
-- [Usage Examples](#-usage-examples)
-- [Development](#-development)
-- [Testing](#-testing)
-- [Deployment](#-deployment)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
+-   [Features](#features)
+-   [Quick Start](#quick-start)
+-   [Tech Stack](#tech-stack)
+-   [Architecture](#architecture)
+-   [Configuration](#configuration)
+-   [Usage Examples](#usage-examples)
+-   [Development](#development)
+-   [Testing](#testing)
+-   [Deployment](#deployment)
+-   [Troubleshooting](#troubleshooting)
+-   [Contributing](#contributing)
 
 ---
 
@@ -58,63 +58,63 @@ A production-ready **Laravel MCP (Model Context Protocol) server** that bridges 
 <details open>
 <summary><b>User Management (3 Tools)</b></summary>
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `get_user_stats` | Retrieve user statistics and distribution | None |
-| `search_users` | Search users by name or email | `query`, `limit` |
-| `create_user` | Create new user accounts | `name`, `email`, `password` |
+| Tool             | Description                               | Key Parameters              |
+| ---------------- | ----------------------------------------- | --------------------------- |
+| `get_user_stats` | Retrieve user statistics and distribution | None                        |
+| `search_users`   | Search users by name or email             | `query`, `limit`            |
+| `create_user`    | Create new user accounts                  | `name`, `email`, `password` |
 
 </details>
 
 <details open>
 <summary><b>Sales Analytics (4 Tools)</b></summary>
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `get_sales_stats` | Comprehensive sales dashboard with KPIs | None |
-| `get_revenue_by_period` | Revenue breakdown and trends | `period` (daily/weekly/monthly) |
-| `get_top_products` | Best-selling products analysis | `limit`, `by` (quantity/revenue) |
-| `get_customer_insights` | Customer segmentation and LTV | None |
+| Tool                    | Description                             | Key Parameters                   |
+| ----------------------- | --------------------------------------- | -------------------------------- |
+| `get_sales_stats`       | Comprehensive sales dashboard with KPIs | None                             |
+| `get_revenue_by_period` | Revenue breakdown and trends            | `period` (daily/weekly/monthly)  |
+| `get_top_products`      | Best-selling products analysis          | `limit`, `by` (quantity/revenue) |
+| `get_customer_insights` | Customer segmentation and LTV           | None                             |
 
 </details>
 
 <details open>
 <summary><b>Inventory & Alerts (2 Tools)</b></summary>
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `get_inventory_alerts` | Low stock warnings and overdue invoices | None |
-| `get_product_inventory` | Product search with stock levels | `query`, `limit` |
+| Tool                    | Description                             | Key Parameters   |
+| ----------------------- | --------------------------------------- | ---------------- |
+| `get_inventory_alerts`  | Low stock warnings and overdue invoices | None             |
+| `get_product_inventory` | Product search with stock levels        | `query`, `limit` |
 
 </details>
 
 <details>
 <summary><b>Order Management (2 Tools)</b></summary>
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `search_orders` | Advanced order filtering and search | `status`, `date_range`, `amount_range`, `customer_id` |
-| `get_invoice_details` | Detailed invoice with payment tracking | `invoice_id` |
+| Tool                  | Description                            | Key Parameters                                        |
+| --------------------- | -------------------------------------- | ----------------------------------------------------- |
+| `search_orders`       | Advanced order filtering and search    | `status`, `date_range`, `amount_range`, `customer_id` |
+| `get_invoice_details` | Detailed invoice with payment tracking | `invoice_id`                                          |
 
 </details>
 
 <details>
 <summary><b>System Monitoring (3 Tools)</b></summary>
 
-| Tool | Description | Key Parameters |
-|------|-------------|----------------|
-| `get_system_info` | Laravel/PHP/Server information | None |
-| `get_database_info` | Database schema and row counts | None |
-| `health_check` | Application health monitoring | None |
+| Tool                | Description                    | Key Parameters |
+| ------------------- | ------------------------------ | -------------- |
+| `get_system_info`   | Laravel/PHP/Server information | None           |
+| `get_database_info` | Database schema and row counts | None           |
+| `health_check`      | Application health monitoring  | None           |
 
 </details>
 
 ### MCP Resources
 
-| Resource | URI | Description |
-|----------|-----|-------------|
+| Resource         | URI                     | Description                        |
+| ---------------- | ----------------------- | ---------------------------------- |
 | **App Settings** | `config://app/settings` | Application configuration snapshot |
-| **Laravel Info** | `system://laravel/info` | Framework runtime information |
+| **Laravel Info** | `system://laravel/info` | Framework runtime information      |
 
 ### Sample Dataset
 
@@ -131,9 +131,9 @@ Total Revenue: €929,574.57  •  6 Months Historical Data
 
 ### Prerequisites
 
-- **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop)
-- **Composer** - [Install guide](https://getcomposer.org/download/)
-- **MCP-Compatible AI Client** - [Claude Desktop](https://claude.ai/download), Cursor, or [other clients](https://modelcontextprotocol.io/clients)
+-   **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop)
+-   **Composer** - [Install guide](https://getcomposer.org/download/)
+-   **MCP-Compatible AI Client** - [Claude Desktop](https://claude.ai/download), Cursor, or [other clients](https://modelcontextprotocol.io/clients)
 
 ### Installation
 
@@ -166,23 +166,24 @@ cp .env.example .env
 ```
 
 **Access Points:**
-- Application: http://localhost
-- phpMyAdmin: http://localhost:8080 (user: `sail`, password: `password`)
-- MCP Inspector: http://localhost:6274
+
+-   Application: http://localhost
+-   phpMyAdmin: http://localhost:8080 (user: `sail`, password: `password`)
+-   MCP Inspector: http://localhost:6274
 
 ---
 
 ## Tech Stack
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **Laravel** | 12.x | Application framework |
-| **PHP** | 8.4 Alpine | Runtime environment |
-| **MySQL** | 8.0 | Relational database |
-| **Laravel MCP** | 0.3.2+ | MCP server implementation |
-| **Laravel Sail** | 1.47+ | Docker development environment |
-| **Laravel Sanctum** | 4.0+ | API authentication |
-| **Laravel Breeze** | 2.3+ | Authentication scaffolding |
+| Technology          | Version    | Purpose                        |
+| ------------------- | ---------- | ------------------------------ |
+| **Laravel**         | 12.x       | Application framework          |
+| **PHP**             | 8.4 Alpine | Runtime environment            |
+| **MySQL**           | 8.0        | Relational database            |
+| **Laravel MCP**     | 0.3.2+     | MCP server implementation      |
+| **Laravel Sail**    | 1.47+      | Docker development environment |
+| **Laravel Sanctum** | 4.0+       | API authentication             |
+| **Laravel Breeze**  | 2.3+       | Authentication scaffolding     |
 
 ---
 
@@ -234,18 +235,21 @@ cp .env.example .env
 ### Architecture Principles
 
 **Separation of Concerns**
-- MCP Tools act as thin controllers, handling only request/response
-- Services contain all business logic, testable and reusable
-- Models represent data structures and database relationships
+
+-   MCP Tools act as thin controllers, handling only request/response
+-   Services contain all business logic, testable and reusable
+-   Models represent data structures and database relationships
 
 **Dependency Injection**
-- Services automatically injected into tools via Laravel's container
-- Promotes testability and maintainability
-- Loose coupling between components
+
+-   Services automatically injected into tools via Laravel's container
+-   Promotes testability and maintainability
+-   Loose coupling between components
 
 **Single Responsibility**
-- Each service focuses on a specific domain (User, Analytics, Inventory)
-- Methods are focused, cohesive, and composable
+
+-   Each service focuses on a specific domain (User, Analytics, Inventory)
+-   Methods are focused, cohesive, and composable
 
 For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -256,9 +260,10 @@ For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
 ### Claude Desktop Integration
 
 **Location:**
-- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
-- **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+-   **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+-   **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+-   **Linux:** `~/.config/Claude/claude_desktop_config.json`
 
 **Configuration:**
 
@@ -315,12 +320,12 @@ FORWARD_PHPMYADMIN_PORT=8080
 
 The application uses three primary services:
 
-| Service | Port | Description |
-|---------|------|-------------|
-| **laravel.test** | 80 | Main application (PHP 8.4 Alpine) |
-| **mysql** | 3307 | MySQL 8.0 database server |
-| **phpmyadmin** | 8080 | Database management interface |
-| **MCP Inspector** | 6274 | Tool testing and debugging UI |
+| Service           | Port | Description                       |
+| ----------------- | ---- | --------------------------------- |
+| **laravel.test**  | 80   | Main application (PHP 8.4 Alpine) |
+| **mysql**         | 3307 | MySQL 8.0 database server         |
+| **phpmyadmin**    | 8080 | Database management interface     |
+| **MCP Inspector** | 6274 | Tool testing and debugging UI     |
 
 ---
 
@@ -331,6 +336,7 @@ The application uses three primary services:
 Once connected to Claude Desktop, interact using natural language:
 
 **Sales & Revenue**
+
 ```
 "What are my total sales for this quarter?"
 "Show me the top 5 products by revenue"
@@ -339,6 +345,7 @@ Once connected to Claude Desktop, interact using natural language:
 ```
 
 **Inventory Management**
+
 ```
 "What products are low on stock?"
 "Show me all overdue invoices"
@@ -347,6 +354,7 @@ Once connected to Claude Desktop, interact using natural language:
 ```
 
 **Customer Analysis**
+
 ```
 "Give me customer insights and segments"
 "Who are my top customers by total spend?"
@@ -354,6 +362,7 @@ Once connected to Claude Desktop, interact using natural language:
 ```
 
 **Operations**
+
 ```
 "Find all pending orders"
 "Show orders from the last 30 days over €1000"
@@ -362,6 +371,7 @@ Once connected to Claude Desktop, interact using natural language:
 ```
 
 **User Management**
+
 ```
 "How many users are registered?"
 "Search for users with email containing 'gmail'"
@@ -474,6 +484,7 @@ protected array $tools = [
 ### Common Development Commands
 
 **Application Management:**
+
 ```bash
 # Start containers
 ./vendor/bin/sail up -d
@@ -489,6 +500,7 @@ protected array $tools = [
 ```
 
 **Database Operations:**
+
 ```bash
 # Run migrations
 ./vendor/bin/sail artisan migrate
@@ -504,6 +516,7 @@ protected array $tools = [
 ```
 
 **Code Quality:**
+
 ```bash
 # Run tests
 ./vendor/bin/sail test
@@ -528,10 +541,11 @@ Interactive web-based tool testing:
 ```
 
 Access at http://localhost:6274 to:
-- View all registered tools and resources
-- Test tools with custom parameters
-- Inspect request/response data
-- Debug schema validation
+
+-   View all registered tools and resources
+-   Test tools with custom parameters
+-   Inspect request/response data
+-   Debug schema validation
 
 ### Automated Testing
 
@@ -565,6 +579,7 @@ Access at http://localhost:6274 to:
 ### Production Checklist
 
 **Environment Configuration:**
+
 ```env
 APP_ENV=production
 APP_DEBUG=false
@@ -587,6 +602,7 @@ SESSION_SAME_SITE=strict
 ```
 
 **Optimization Commands:**
+
 ```bash
 # Cache configuration
 php artisan config:cache
@@ -683,22 +699,22 @@ sudo chown -R $USER:$USER storage bootstrap/cache
 
 ### Getting Help
 
-- Check the [MCP Specification](https://modelcontextprotocol.io)
-- Review [Laravel MCP documentation](https://github.com/laravel/mcp)
-- Inspect tool schemas with MCP Inspector
-- Check Docker logs: `./vendor/bin/sail logs`
+-   Check the [MCP Specification](https://modelcontextprotocol.io)
+-   Review [Laravel MCP documentation](https://github.com/laravel/mcp)
+-   Inspect tool schemas with MCP Inspector
+-   Check Docker logs: `./vendor/bin/sail logs`
 
 ---
 
 ## Security Considerations
 
-- **Database Access:** MCP tools have direct database access—implement authorization in production
-- **Input Validation:** All inputs validated using schema definitions
-- **Rate Limiting:** Consider implementing for HTTP-based transports
-- **HTTPS:** Enable SSL/TLS in production environments
-- **Authentication:** Use API tokens for HTTP MCP endpoints
-- **Audit Logs:** Monitor and log all MCP tool invocations
-- **Environment Variables:** Never commit `.env` to version control
+-   **Database Access:** MCP tools have direct database access—implement authorization in production
+-   **Input Validation:** All inputs validated using schema definitions
+-   **Rate Limiting:** Consider implementing for HTTP-based transports
+-   **HTTPS:** Enable SSL/TLS in production environments
+-   **Authentication:** Use API tokens for HTTP MCP endpoints
+-   **Audit Logs:** Monitor and log all MCP tool invocations
+-   **Environment Variables:** Never commit `.env` to version control
 
 ---
 
@@ -724,11 +740,11 @@ This project is licensed under the **MIT License**. See [LICENSE](https://openso
 
 ## Resources
 
-- **Laravel MCP Package:** [github.com/laravel/mcp](https://github.com/laravel/mcp)
-- **MCP Specification:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
-- **MCP Clients:** [modelcontextprotocol.io/clients](https://modelcontextprotocol.io/clients)
-- **Laravel Documentation:** [laravel.com/docs](https://laravel.com/docs)
-- **Laravel Sail:** [laravel.com/docs/sail](https://laravel.com/docs/sail)
+-   **Laravel MCP Package:** [github.com/laravel/mcp](https://github.com/laravel/mcp)
+-   **MCP Specification:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
+-   **MCP Clients:** [modelcontextprotocol.io/clients](https://modelcontextprotocol.io/clients)
+-   **Laravel Documentation:** [laravel.com/docs](https://laravel.com/docs)
+-   **Laravel Sail:** [laravel.com/docs/sail](https://laravel.com/docs/sail)
 
 ---
 
@@ -736,7 +752,7 @@ This project is licensed under the **MIT License**. See [LICENSE](https://openso
 
 **Built with Laravel 12 • PHP 8.4 • MySQL 8.0 • Laravel MCP**
 
-*Empowering AI-driven business intelligence*
+_Empowering AI-driven business intelligence_
 
 Made with ❤️ by the Laravel Community
 
