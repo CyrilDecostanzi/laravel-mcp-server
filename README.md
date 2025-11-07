@@ -21,15 +21,17 @@
 
 ## Overview
 
-A production-ready **Laravel MCP (Model Context Protocol) server** that bridges the gap between AI assistants like Claude and your e-commerce business data. Enable natural language queries to access sales analytics, inventory management, customer insights, and system monitoring—all through a secure, structured protocol.
+A production-ready **Laravel MCP (Model Context Protocol) server** that bridges the gap between AI assistants like Claude and your e-commerce business data. Enable natural language queries to access advanced analytics, predictive insights, inventory management, and **perform real actions** on your data—all through a secure, structured protocol.
 
 ### What Makes This Special?
 
--   **15 Production-Ready MCP Tools** - Comprehensive e-commerce operations coverage
+-   **24 Production-Ready MCP Tools** - Advanced analytics + Full CRUD operations
+-   **🧠 Predictive Analytics** - RFM customer segmentation, sales forecasting, product recommendations
+-   **✏️ Write Capabilities** - Create orders, update stock, apply discounts, manage products
 -   **Clean Architecture** - Service layer pattern with dependency injection
 -   **Complete E-commerce Dataset** - 500+ orders, 200 products, realistic analytics
 -   **Docker-First** - Fully containerized with Laravel Sail
--   **Real-Time Analytics** - Revenue tracking, customer segmentation, inventory alerts
+-   **AI-Powered Insights** - Intelligent recommendations, trend analysis, customer intelligence
 -   **Developer-Friendly** - Auto-discovery, MCP Inspector integration, extensive documentation
 -   **Battle-Tested Stack** - Laravel 12, PHP 8.4, MySQL 8.0
 
@@ -53,48 +55,77 @@ A production-ready **Laravel MCP (Model Context Protocol) server** that bridges 
 
 ## Features
 
-### MCP Tools Overview
+### MCP Tools Overview (24 Tools)
 
 <details open>
-<summary><b>User Management (3 Tools)</b></summary>
+<summary><b>🧠 Advanced Analytics (3 Tools) - NEW!</b></summary>
+
+| Tool                    | Description                                            | Key Parameters                      |
+| ----------------------- | ------------------------------------------------------ | ----------------------------------- |
+| `get_rfm_analysis`      | RFM customer segmentation with actionable insights     | `limit`, `include_insights`         |
+| `get_sales_forecast`    | Predict future sales with trend analysis               | `period`, `forecast_days`           |
+| `get_customer_insights` | Customer segmentation and lifetime value analysis      | None                                |
+
+**RFM Segments**: Champions, Loyal Customers, Potential Loyalists, At Risk, Can't Lose Them, Hibernating, Lost, New Customers
+
+</details>
+
+<details open>
+<summary><b>🛍️ Product Intelligence (3 Tools) - NEW!</b></summary>
+
+| Tool                         | Description                                        | Key Parameters                     |
+| ---------------------------- | -------------------------------------------------- | ---------------------------------- |
+| `get_product_recommendations`| Intelligent product recommendations (AI-powered)   | `type`, `customer_id`, `product_id`|
+| `get_trending_products`      | Products with highest sales velocity               | `days`, `limit`                    |
+| `get_top_products`           | Best-selling products analysis                     | `limit`, `by` (quantity/revenue)   |
+
+**Recommendation Types**: `for_customer` (personalized), `cross_sell` (frequently bought together), `upsell` (higher-priced alternatives)
+
+</details>
+
+<details open>
+<summary><b>📈 Sales Analytics (2 Tools)</b></summary>
+
+| Tool                    | Description                             | Key Parameters                   |
+| ----------------------- | --------------------------------------- | -------------------------------- |
+| `get_sales_stats`       | Comprehensive sales dashboard with KPIs | None                             |
+| `get_revenue_by_period` | Revenue breakdown and trends            | `period` (daily/weekly/monthly)  |
+
+</details>
+
+<details open>
+<summary><b>✏️ Order Management - READ & WRITE (4 Tools)</b></summary>
+
+| Tool                  | Description                                    | Key Parameters                                        |
+| --------------------- | ---------------------------------------------- | ----------------------------------------------------- |
+| `search_orders`       | Advanced order filtering and search            | `status`, `date_range`, `amount_range`, `customer_id` |
+| `get_invoice_details` | Detailed invoice with payment tracking         | `invoice_id`                                          |
+| `create_order` **NEW**| **Create new orders** with stock validation    | `customer_id`, `items`, `status`, `decrease_stock`    |
+| `update_order_status` **NEW** | **Update order status** in workflow    | `order_id`, `status`                                  |
+
+</details>
+
+<details open>
+<summary><b>📦 Inventory Management - READ & WRITE (5 Tools)</b></summary>
+
+| Tool                      | Description                                   | Key Parameters                         |
+| ------------------------- | --------------------------------------------- | -------------------------------------- |
+| `get_inventory_alerts`    | Low stock warnings and overdue invoices       | None                                   |
+| `get_product_inventory`   | Product search with stock levels              | `query`, `limit`                       |
+| `update_product_stock` **NEW** | **Update stock levels** (set/add/subtract) | `product_id`, `quantity`, `operation` |
+| `create_product` **NEW**  | **Create new products** with auto-SKU         | `name`, `price`, `stock`, `description`|
+| `apply_discount` **NEW**  | **Apply percentage discounts** to products    | `product_id`, `discount_percentage`    |
+
+</details>
+
+<details>
+<summary><b>👥 User Management (3 Tools)</b></summary>
 
 | Tool             | Description                               | Key Parameters              |
 | ---------------- | ----------------------------------------- | --------------------------- |
 | `get_user_stats` | Retrieve user statistics and distribution | None                        |
 | `search_users`   | Search users by name or email             | `query`, `limit`            |
 | `create_user`    | Create new user accounts                  | `name`, `email`, `password` |
-
-</details>
-
-<details open>
-<summary><b>Sales Analytics (4 Tools)</b></summary>
-
-| Tool                    | Description                             | Key Parameters                   |
-| ----------------------- | --------------------------------------- | -------------------------------- |
-| `get_sales_stats`       | Comprehensive sales dashboard with KPIs | None                             |
-| `get_revenue_by_period` | Revenue breakdown and trends            | `period` (daily/weekly/monthly)  |
-| `get_top_products`      | Best-selling products analysis          | `limit`, `by` (quantity/revenue) |
-| `get_customer_insights` | Customer segmentation and LTV           | None                             |
-
-</details>
-
-<details open>
-<summary><b>Inventory & Alerts (2 Tools)</b></summary>
-
-| Tool                    | Description                             | Key Parameters   |
-| ----------------------- | --------------------------------------- | ---------------- |
-| `get_inventory_alerts`  | Low stock warnings and overdue invoices | None             |
-| `get_product_inventory` | Product search with stock levels        | `query`, `limit` |
-
-</details>
-
-<details>
-<summary><b>Order Management (2 Tools)</b></summary>
-
-| Tool                  | Description                            | Key Parameters                                        |
-| --------------------- | -------------------------------------- | ----------------------------------------------------- |
-| `search_orders`       | Advanced order filtering and search    | `status`, `date_range`, `amount_range`, `customer_id` |
-| `get_invoice_details` | Detailed invoice with payment tracking | `invoice_id`                                          |
 
 </details>
 
@@ -335,6 +366,25 @@ The application uses three primary services:
 
 Once connected to Claude Desktop, interact using natural language:
 
+**🧠 Advanced Analytics (NEW!)**
+
+```
+"Segment my customers using RFM analysis and show actionable insights"
+"Which customers are at risk of churning and what should I do?"
+"Forecast my sales for the next 7 days"
+"Show me sales predictions with confidence metrics"
+"What are the trending products this week?"
+```
+
+**🛍️ Product Intelligence (NEW!)**
+
+```
+"What products should I recommend to customer #5?"
+"Show me cross-sell opportunities for product #10"
+"Find upsell products for the laptop I'm selling"
+"What products are frequently bought together with product #25?"
+```
+
 **Sales & Revenue**
 
 ```
@@ -344,13 +394,23 @@ Once connected to Claude Desktop, interact using natural language:
 "How are my sales trending week over week?"
 ```
 
-**Inventory Management**
+**✏️ Order Management (NEW! - Write Operations)**
 
 ```
+"Create an order for customer #10 with product #5 (quantity 2) and product #8 (quantity 1)"
+"Update order #150 status to completed"
+"What's the status of order #42?"
+"Show all pending orders from the last week"
+```
+
+**📦 Inventory Management (NEW! - Write Operations)**
+
+```
+"Update stock for product #15 to 100 units"
+"Add 50 units to product #20 stock"
+"Apply a 20% discount to product #25"
+"Create a new product: 'Premium Wireless Mouse' priced at €49.99 with 100 units in stock"
 "What products are low on stock?"
-"Show me all overdue invoices"
-"Search for products containing 'laptop'"
-"What inventory alerts do I have?"
 ```
 
 **Customer Analysis**
@@ -359,15 +419,7 @@ Once connected to Claude Desktop, interact using natural language:
 "Give me customer insights and segments"
 "Who are my top customers by total spend?"
 "What's the average customer lifetime value?"
-```
-
-**Operations**
-
-```
-"Find all pending orders"
-"Show orders from the last 30 days over €1000"
-"Get invoice details for invoice #42"
-"Check application health status"
+"Show me VIP customers and their spending patterns"
 ```
 
 **User Management**
@@ -376,6 +428,28 @@ Once connected to Claude Desktop, interact using natural language:
 "How many users are registered?"
 "Search for users with email containing 'gmail'"
 "Create a new user for John Smith"
+```
+
+### Demo Scenarios - Combining Multiple Tools
+
+**Scenario 1: Customer Win-Back Campaign**
+```
+"Segment customers using RFM, identify those at risk, and recommend products to win them back"
+```
+
+**Scenario 2: Inventory Optimization**
+```
+"Show low stock alerts, then forecast next week's sales to determine reorder quantities"
+```
+
+**Scenario 3: Dynamic Pricing Strategy**
+```
+"Find trending products, analyze their sales velocity, then apply strategic discounts to slower items"
+```
+
+**Scenario 4: Complete Order Fulfillment**
+```
+"Create order for customer #5, check stock availability, process the order, then update status to processing"
 ```
 
 ---

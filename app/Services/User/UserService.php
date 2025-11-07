@@ -17,16 +17,16 @@ class UserService
 
         $recentSignups = User::whereBetween('created_at', [
             now()->subDays(30),
-            now()
+            now(),
         ])->count();
 
         $oldestUser = User::orderBy('created_at', 'asc')->first();
         $newestUser = User::orderBy('created_at', 'desc')->first();
 
         $usersByMonth = User::select(
-                DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
-                DB::raw('count(*) as count')
-            )
+            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('count(*) as count')
+        )
             ->groupBy('month')
             ->orderBy('month', 'desc')
             ->limit(12)
@@ -67,7 +67,7 @@ class UserService
             'query' => $query,
             'total_results' => $users->count(),
             'limit' => $limit,
-            'users' => $users->map(fn($user) => [
+            'users' => $users->map(fn ($user) => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,

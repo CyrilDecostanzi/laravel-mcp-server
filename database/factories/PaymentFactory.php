@@ -22,11 +22,11 @@ class PaymentFactory extends Factory
         $paidAt = $status === 'completed'
             ? fake()->dateTimeBetween('-6 months', 'now')
             : null;
-        
+
         return [
             'invoice_id' => Invoice::factory(),
             'order_id' => Order::factory(),
-            'transaction_id' => 'TXN-' . strtoupper(fake()->unique()->bothify('########')),
+            'transaction_id' => 'TXN-'.strtoupper(fake()->unique()->bothify('########')),
             'payment_method' => fake()->randomElement(['credit_card', 'debit_card', 'paypal', 'bank_transfer', 'cash']),
             'status' => $status,
             'amount' => fake()->randomFloat(2, 10, 5000),

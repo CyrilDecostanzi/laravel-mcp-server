@@ -53,7 +53,7 @@ class SystemHealthService
             ],
             'database' => [
                 'connection' => config('database.default'),
-                'driver' => config('database.connections.' . config('database.default') . '.driver'),
+                'driver' => config('database.connections.'.config('database.default').'.driver'),
             ],
             'cache' => [
                 'driver' => config('cache.default'),
@@ -75,7 +75,7 @@ class SystemHealthService
     public function getDatabaseInfo(): array
     {
         $tables = DB::select('SHOW TABLES');
-        $databaseName = config('database.connections.' . config('database.default') . '.database');
+        $databaseName = config('database.connections.'.config('database.default').'.database');
         $tableKey = "Tables_in_{$databaseName}";
 
         $tableData = collect($tables)->map(function ($table) use ($tableKey) {
@@ -91,7 +91,7 @@ class SystemHealthService
         return [
             'database' => $databaseName,
             'connection' => config('database.default'),
-            'driver' => config('database.connections.' . config('database.default') . '.driver'),
+            'driver' => config('database.connections.'.config('database.default').'.driver'),
             'tables' => $tableData->values()->toArray(),
             'total_tables' => $tableData->count(),
             'timestamp' => now()->toISOString(),
@@ -105,6 +105,7 @@ class SystemHealthService
     {
         try {
             DB::connection()->getPdo();
+
             return [
                 'status' => 'ok',
                 'message' => 'Database connection successful',

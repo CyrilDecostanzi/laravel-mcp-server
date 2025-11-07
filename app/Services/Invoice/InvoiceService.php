@@ -13,7 +13,7 @@ class InvoiceService
     {
         $invoice = Invoice::with(['user', 'order', 'payments'])->find($invoiceId);
 
-        if (!$invoice) {
+        if (! $invoice) {
             return [
                 'success' => false,
                 'error' => "Invoice with ID {$invoiceId} not found",
@@ -53,7 +53,7 @@ class InvoiceService
                 'balance' => round($balance, 2),
                 'payment_count' => $invoice->payments->count(),
             ],
-            'payments' => $invoice->payments->map(fn($payment) => [
+            'payments' => $invoice->payments->map(fn ($payment) => [
                 'id' => $payment->id,
                 'amount' => (float) $payment->amount,
                 'payment_method' => $payment->payment_method,
@@ -76,11 +76,11 @@ class InvoiceService
             ->selectRaw('sum(amount) as total_amount')
             ->groupBy('status')
             ->get()
-            ->mapWithKeys(fn($item) => [
+            ->mapWithKeys(fn ($item) => [
                 $item->status => [
                     'count' => $item->count,
                     'total_amount' => (float) $item->total_amount,
-                ]
+                ],
             ]);
 
         $overdue = Invoice::where('status', '!=', 'paid')

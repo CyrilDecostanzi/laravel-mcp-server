@@ -44,7 +44,7 @@ class InventoryService
             ->orWhere('description', 'LIKE', "%{$query}%")
             ->limit($limit)
             ->get()
-            ->map(fn($product) => [
+            ->map(fn ($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'sku' => $product->sku,
@@ -75,7 +75,7 @@ class InventoryService
             ->where('is_active', true)
             ->orderBy('stock_quantity', 'asc')
             ->get()
-            ->map(fn($product) => [
+            ->map(fn ($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'sku' => $product->sku,
@@ -96,7 +96,7 @@ class InventoryService
             ->where('is_active', true)
             ->orderBy('name')
             ->get()
-            ->map(fn($product) => [
+            ->map(fn ($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'sku' => $product->sku,
@@ -115,7 +115,7 @@ class InventoryService
             ->where('stock_quantity', '>', 0)
             ->orderByDesc('stock_quantity')
             ->get()
-            ->map(fn($product) => [
+            ->map(fn ($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'sku' => $product->sku,
@@ -136,7 +136,7 @@ class InventoryService
             ->orderBy('due_date', 'asc')
             ->limit(20)
             ->get()
-            ->map(fn($invoice) => [
+            ->map(fn ($invoice) => [
                 'id' => $invoice->id,
                 'invoice_number' => $invoice->invoice_number,
                 'amount' => (float) $invoice->amount,
@@ -154,7 +154,7 @@ class InventoryService
      */
     private function getStockStatus(Product $product): string
     {
-        if (!$product->is_active) {
+        if (! $product->is_active) {
             return 'inactive';
         }
 

@@ -22,11 +22,11 @@ class SalesAnalyticsService
         $ordersByStatus = Order::select('status', DB::raw('count(*) as count'), DB::raw('sum(total) as revenue'))
             ->groupBy('status')
             ->get()
-            ->mapWithKeys(fn($item) => [
+            ->mapWithKeys(fn ($item) => [
                 $item->status => [
                     'count' => $item->count,
                     'revenue' => (float) $item->revenue,
-                ]
+                ],
             ]);
 
         // Time-based statistics
@@ -59,7 +59,7 @@ class SalesAnalyticsService
                 'last_month' => $lastMonth,
             ],
             'growth' => [
-                'monthly_growth_rate' => round($growthRate, 2) . '%',
+                'monthly_growth_rate' => round($growthRate, 2).'%',
             ],
             'payments' => [
                 'completed' => $paymentStats['completed'],
@@ -92,7 +92,7 @@ class SalesAnalyticsService
             ->orderBy('period', 'desc')
             ->limit($limit)
             ->get()
-            ->map(fn($item) => [
+            ->map(fn ($item) => [
                 'period' => $item->period,
                 'orders' => (int) $item->orders,
                 'revenue' => round((float) $item->revenue, 2),
@@ -129,7 +129,7 @@ class SalesAnalyticsService
             ->orderByDesc($orderBy)
             ->limit($limit)
             ->get()
-            ->map(fn($product) => [
+            ->map(fn ($product) => [
                 'id' => $product->id,
                 'name' => $product->name,
                 'sku' => $product->sku,
@@ -186,11 +186,11 @@ class SalesAnalyticsService
             ->select('payment_method', DB::raw('count(*) as count'), DB::raw('sum(amount) as total'))
             ->groupBy('payment_method')
             ->get()
-            ->mapWithKeys(fn($item) => [
+            ->mapWithKeys(fn ($item) => [
                 $item->payment_method => [
                     'count' => $item->count,
                     'total' => (float) $item->total,
-                ]
+                ],
             ]);
 
         return [

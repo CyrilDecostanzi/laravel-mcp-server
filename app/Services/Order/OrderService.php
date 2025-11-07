@@ -15,23 +15,23 @@ class OrderService
         $query = Order::query()->with(['user', 'orderItems.product']);
 
         // Apply filters
-        if (!empty($filters['status'])) {
+        if (! empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        if (!empty($filters['start_date'])) {
+        if (! empty($filters['start_date'])) {
             $query->whereDate('created_at', '>=', Carbon::parse($filters['start_date']));
         }
 
-        if (!empty($filters['end_date'])) {
+        if (! empty($filters['end_date'])) {
             $query->whereDate('created_at', '<=', Carbon::parse($filters['end_date']));
         }
 
-        if (!empty($filters['min_amount'])) {
+        if (! empty($filters['min_amount'])) {
             $query->where('total', '>=', $filters['min_amount']);
         }
 
-        if (!empty($filters['customer_id'])) {
+        if (! empty($filters['customer_id'])) {
             $query->where('user_id', $filters['customer_id']);
         }
 
@@ -40,7 +40,7 @@ class OrderService
         $orders = $query->orderByDesc('created_at')
             ->limit($limit)
             ->get()
-            ->map(fn($order) => [
+            ->map(fn ($order) => [
                 'id' => $order->id,
                 'order_number' => $order->order_number,
                 'status' => $order->status,
@@ -52,7 +52,7 @@ class OrderService
                     'email' => $order->user->email,
                 ],
                 'items_count' => $order->orderItems->count(),
-                'items' => $order->orderItems->map(fn($item) => [
+                'items' => $order->orderItems->map(fn ($item) => [
                     'product_id' => $item->product_id,
                     'product_name' => $item->product->name ?? 'N/A',
                     'quantity' => $item->quantity,

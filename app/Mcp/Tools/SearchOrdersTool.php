@@ -75,44 +75,44 @@ class SearchOrdersTool extends Tool
             'max_amount' => 'numeric',
             'limit' => 'integer|min:1|max:100',
         ]);
-        
+
         $query = Order::with(['user', 'items.product']);
-        
+
         // Text search
-        if (!empty($params['query'])) {
+        if (! empty($params['query'])) {
             $searchTerm = $params['query'];
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('order_number', 'like', "%{$searchTerm}%")
-                  ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
-                      $userQuery->where('email', 'like', "%{$searchTerm}%")
-                                ->orWhere('name', 'like', "%{$searchTerm}%");
-                  });
+                    ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                        $userQuery->where('email', 'like', "%{$searchTerm}%")
+                            ->orWhere('name', 'like', "%{$searchTerm}%");
+                    });
             });
         }
-        
+
         // Status filter
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('status', $params['status']);
         }
-        
+
         // Date range filter
-        if (!empty($params['date_from'])) {
+        if (! empty($params['date_from'])) {
             $query->whereDate('created_at', '>=', $params['date_from']);
         }
-        if (!empty($params['date_to'])) {
+        if (! empty($params['date_to'])) {
             $query->whereDate('created_at', '<=', $params['date_to']);
         }
-        
+
         // Amount range filter
-        if (!empty($params['min_amount'])) {
+        if (! empty($params['min_amount'])) {
             $query->where('total', '>=', $params['min_amount']);
         }
-        if (!empty($params['max_amount'])) {
+        if (! empty($params['max_amount'])) {
             $query->where('total', '<=', $params['max_amount']);
         }
-        
+
         $limit = min($params['limit'] ?? 20, 100);
-        
+
         $orders = $query->orderByDesc('created_at')
             ->limit($limit)
             ->get()
@@ -133,7 +133,7 @@ class SearchOrdersTool extends Tool
                         'total' => (float) $order->total,
                     ],
                     'items_count' => $order->items->count(),
-                    'items' => $order->items->map(fn($item) => [
+                    'items' => $order->items->map(fn ($item) => [
                         'product_name' => $item->product_name,
                         'sku' => $item->product_sku,
                         'quantity' => $item->quantity,

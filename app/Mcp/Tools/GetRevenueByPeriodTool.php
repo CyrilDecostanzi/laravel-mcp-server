@@ -4,7 +4,6 @@ namespace App\Mcp\Tools;
 
 use App\Models\Order;
 use Illuminate\JsonSchema\JsonSchema;
-use Illuminate\Support\Facades\DB;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -48,13 +47,13 @@ class GetRevenueByPeriodTool extends Tool
     public function handle(Request $request): Response
     {
         $period = $request->params['period'] ?? 'monthly';
-        $limit = $request->params['limit'] ?? match($period) {
+        $limit = $request->params['limit'] ?? match ($period) {
             'daily' => 30,
             'weekly' => 8,
             'monthly' => 12,
         };
 
-        $revenueData = match($period) {
+        $revenueData = match ($period) {
             'daily' => $this->getDailyRevenue($limit),
             'weekly' => $this->getWeeklyRevenue($limit),
             'monthly' => $this->getMonthlyRevenue($limit),
@@ -86,7 +85,7 @@ class GetRevenueByPeriodTool extends Tool
             ->groupBy('date')
             ->orderByDesc('date')
             ->get()
-            ->map(fn($item) => [
+            ->map(fn ($item) => [
                 'date' => $item->date,
                 'orders' => (int) $item->orders,
                 'revenue' => round((float) $item->revenue, 2),
@@ -103,9 +102,9 @@ class GetRevenueByPeriodTool extends Tool
             ->groupBy('week')
             ->orderByDesc('week')
             ->get()
-            ->map(fn($item) => [
+            ->map(fn ($item) => [
                 'week' => $item->week,
-                'period' => $item->start_date . ' to ' . $item->end_date,
+                'period' => $item->start_date.' to '.$item->end_date,
                 'orders' => (int) $item->orders,
                 'revenue' => round((float) $item->revenue, 2),
             ]);
@@ -122,7 +121,7 @@ class GetRevenueByPeriodTool extends Tool
             ->orderByDesc('year')
             ->orderByDesc('month')
             ->get()
-            ->map(fn($item) => [
+            ->map(fn ($item) => [
                 'period' => date('F Y', mktime(0, 0, 0, $item->month, 1, $item->year)),
                 'year' => (int) $item->year,
                 'month' => (int) $item->month,

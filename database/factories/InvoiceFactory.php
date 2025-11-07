@@ -21,12 +21,12 @@ class InvoiceFactory extends Factory
         $status = fake()->randomElement(['draft', 'sent', 'paid', 'overdue', 'cancelled']);
         $issueDate = fake()->dateTimeBetween('-6 months', 'now');
         $dueDate = fake()->dateTimeBetween($issueDate, '+30 days');
-        $paidAt = $status === 'paid' 
+        $paidAt = $status === 'paid'
             ? fake()->dateTimeBetween($issueDate, $dueDate)
             : null;
-        
+
         return [
-            'invoice_number' => 'INV-' . strtoupper(fake()->unique()->bothify('####-????')),
+            'invoice_number' => 'INV-'.strtoupper(fake()->unique()->bothify('####-????')),
             'order_id' => Order::factory(),
             'user_id' => User::factory(),
             'status' => $status,

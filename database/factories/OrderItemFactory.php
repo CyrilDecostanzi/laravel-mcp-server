@@ -21,7 +21,7 @@ class OrderItemFactory extends Factory
         $quantity = fake()->numberBetween(1, 5);
         $unitPrice = fake()->randomFloat(2, 10, 300);
         $totalPrice = $quantity * $unitPrice;
-        
+
         return [
             'order_id' => Order::factory(),
             'product_id' => Product::factory(),

@@ -30,15 +30,15 @@ class CustomerInsightsService
     private function getTopCustomers(int $limit): array
     {
         return User::select(
-                'users.id',
-                'users.name',
-                'users.email',
-                DB::raw('COUNT(orders.id) as total_orders'),
-                DB::raw('SUM(orders.total) as total_spent'),
-                DB::raw('AVG(orders.total) as avg_order_value'),
-                DB::raw('MIN(orders.created_at) as first_order_date'),
-                DB::raw('MAX(orders.created_at) as last_order_date')
-            )
+            'users.id',
+            'users.name',
+            'users.email',
+            DB::raw('COUNT(orders.id) as total_orders'),
+            DB::raw('SUM(orders.total) as total_spent'),
+            DB::raw('AVG(orders.total) as avg_order_value'),
+            DB::raw('MIN(orders.created_at) as first_order_date'),
+            DB::raw('MAX(orders.created_at) as last_order_date')
+        )
             ->join('orders', 'users.id', '=', 'orders.user_id')
             ->groupBy('users.id', 'users.name', 'users.email')
             ->orderByDesc('total_spent')
@@ -123,7 +123,7 @@ class CustomerInsightsService
             'total_customers' => $totalCustomers,
             'customers_with_orders' => $totalCustomersWithOrders,
             'conversion_rate' => $totalCustomers > 0
-                ? round(($totalCustomersWithOrders / $totalCustomers) * 100, 2) . '%'
+                ? round(($totalCustomersWithOrders / $totalCustomers) * 100, 2).'%'
                 : '0%',
             'average_lifetime_value' => round((float) $averageLifetimeValue, 2),
         ];

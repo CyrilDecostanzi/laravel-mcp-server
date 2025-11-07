@@ -19,7 +19,7 @@ class ProductFactory extends Factory
         $name = fake()->unique()->words(rand(2, 4), true);
         $price = fake()->randomFloat(2, 5, 500);
         $costPrice = $price * fake()->randomFloat(2, 0.4, 0.7);
-        
+
         return [
             'name' => ucwords($name),
             'slug' => \Illuminate\Support\Str::slug($name),

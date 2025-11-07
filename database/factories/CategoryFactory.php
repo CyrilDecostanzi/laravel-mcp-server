@@ -17,7 +17,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         $name = fake()->unique()->words(rand(1, 3), true);
-        
+
         return [
             'name' => ucfirst($name),
             'slug' => \Illuminate\Support\Str::slug($name),

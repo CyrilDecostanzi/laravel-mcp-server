@@ -76,59 +76,59 @@ class GetProductInventoryTool extends Tool
             'category_id' => 'integer',
             'limit' => 'integer|min:1|max:200',
         ]);
-        
+
         $query = Product::with(['categories', 'orderItems']);
-        
+
         // Text search
-        if (!empty($params['query'])) {
+        if (! empty($params['query'])) {
             $searchTerm = $params['query'];
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
-                  ->orWhere('sku', 'like', "%{$searchTerm}%")
-                  ->orWhere('description', 'like', "%{$searchTerm}%");
+                    ->orWhere('sku', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%");
             });
         }
-        
+
         // Stock status filter
         $stockStatus = $params['stock_status'] ?? 'all';
         if ($stockStatus === 'low_stock') {
             $query->whereColumn('stock_quantity', '<=', 'low_stock_threshold')
-                  ->where('stock_quantity', '>', 0);
+                ->where('stock_quantity', '>', 0);
         } elseif ($stockStatus === 'out_of_stock') {
             $query->where('stock_quantity', 0);
         } elseif ($stockStatus === 'in_stock') {
             $query->whereColumn('stock_quantity', '>', 'low_stock_threshold');
         }
-        
+
         // Active status filter
         if (isset($params['is_active'])) {
             $query->where('is_active', $params['is_active']);
         }
-        
+
         // Price range filter
-        if (!empty($params['min_price'])) {
+        if (! empty($params['min_price'])) {
             $query->where('price', '>=', $params['min_price']);
         }
-        if (!empty($params['max_price'])) {
+        if (! empty($params['max_price'])) {
             $query->where('price', '<=', $params['max_price']);
         }
-        
+
         // Category filter
-        if (!empty($params['category_id'])) {
+        if (! empty($params['category_id'])) {
             $query->whereHas('categories', function ($q) use ($params) {
                 $q->where('categories.id', $params['category_id']);
             });
         }
-        
+
         $limit = min($params['limit'] ?? 50, 200);
-        
+
         $products = $query->orderBy('name')
             ->limit($limit)
             ->get()
             ->map(function ($product) {
                 $totalSold = $product->orderItems->sum('quantity');
                 $totalRevenue = $product->orderItems->sum('total_price');
-                
+
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -137,14 +137,14 @@ class GetProductInventoryTool extends Tool
                     'pricing' => [
                         'price' => (float) $product->price,
                         'cost_price' => (float) $product->cost_price,
-                        'margin' => round(((float)$product->price - (float)$product->cost_price) / (float)$product->price * 100, 2),
+                        'margin' => round(((float) $product->price - (float) $product->cost_price) / (float) $product->price * 100, 2),
                     ],
                     'inventory' => [
                         'stock_quantity' => $product->stock_quantity,
                         'low_stock_threshold' => $product->low_stock_threshold,
-                        'stock_status' => $product->isOutOfStock() ? 'out_of_stock' 
+                        'stock_status' => $product->isOutOfStock() ? 'out_of_stock'
                             : ($product->isLowStock() ? 'low_stock' : 'in_stock'),
-                        'stock_value' => round($product->stock_quantity * (float)$product->price, 2),
+                        'stock_value' => round($product->stock_quantity * (float) $product->price, 2),
                     ],
                     'sales_performance' => [
                         'total_units_sold' => (int) $totalSold,

@@ -7,4 +7,4 @@ use Laravel\Mcp\Facades\Mcp;
 Mcp::local('laravel', LaravelServer::class);
 
 // Register a web MCP server (for HTTP-based clients)
-// Mcp::web('/mcp/laravel', LaravelServer::class);
+Mcp::web('/mcp/laravel', LaravelServer::class);

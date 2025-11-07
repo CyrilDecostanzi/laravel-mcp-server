@@ -65,43 +65,43 @@ class GetInvoiceDetailsTool extends Tool
             'date_to' => 'string|date',
             'limit' => 'integer|min:1|max:100',
         ]);
-        
+
         $query = Invoice::with(['order', 'user', 'payments']);
-        
+
         // Text search
-        if (!empty($params['query'])) {
+        if (! empty($params['query'])) {
             $searchTerm = $params['query'];
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('invoice_number', 'like', "%{$searchTerm}%")
-                  ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
-                      $userQuery->where('email', 'like', "%{$searchTerm}%")
-                                ->orWhere('name', 'like', "%{$searchTerm}%");
-                  });
+                    ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                        $userQuery->where('email', 'like', "%{$searchTerm}%")
+                            ->orWhere('name', 'like', "%{$searchTerm}%");
+                    });
             });
         }
-        
+
         // Status filter
-        if (!empty($params['status'])) {
+        if (! empty($params['status'])) {
             $query->where('status', $params['status']);
         }
-        
+
         // Date range filter
-        if (!empty($params['date_from'])) {
+        if (! empty($params['date_from'])) {
             $query->whereDate('issue_date', '>=', $params['date_from']);
         }
-        if (!empty($params['date_to'])) {
+        if (! empty($params['date_to'])) {
             $query->whereDate('issue_date', '<=', $params['date_to']);
         }
-        
+
         $limit = min($params['limit'] ?? 20, 100);
-        
+
         $invoices = $query->orderByDesc('created_at')
             ->limit($limit)
             ->get()
             ->map(function ($invoice) {
                 $totalPaid = $invoice->payments->where('status', 'completed')->sum('amount');
-                $balance = (float)$invoice->amount - (float)$totalPaid;
-                
+                $balance = (float) $invoice->amount - (float) $totalPaid;
+
                 return [
                     'id' => $invoice->id,
                     'invoice_number' => $invoice->invoice_number,
@@ -128,7 +128,7 @@ class GetInvoiceDetailsTool extends Tool
                         'days_until_due' => $invoice->due_date->diffInDays(now(), false),
                     ],
                     'is_overdue' => $invoice->isOverdue(),
-                    'payments' => $invoice->payments->map(fn($payment) => [
+                    'payments' => $invoice->payments->map(fn ($payment) => [
                         'id' => $payment->id,
                         'transaction_id' => $payment->transaction_id,
                         'method' => $payment->payment_method,

@@ -22,17 +22,17 @@ class OrderFactory extends Factory
         $tax = $subtotal * 0.20;
         $shipping = fake()->randomFloat(2, 5, 25);
         $total = $subtotal + $tax + $shipping;
-        
+
         $createdAt = fake()->dateTimeBetween('-6 months', 'now');
-        $shippedAt = in_array($status, ['shipped', 'delivered']) 
-            ? fake()->dateTimeBetween($createdAt, 'now') 
+        $shippedAt = in_array($status, ['shipped', 'delivered'])
+            ? fake()->dateTimeBetween($createdAt, 'now')
             : null;
         $deliveredAt = $status === 'delivered' && $shippedAt
             ? fake()->dateTimeBetween($shippedAt, 'now')
             : null;
-        
+
         return [
-            'order_number' => 'ORD-' . strtoupper(fake()->unique()->bothify('####-????')),
+            'order_number' => 'ORD-'.strtoupper(fake()->unique()->bothify('####-????')),
             'user_id' => User::factory(),
             'status' => $status,
             'subtotal' => $subtotal,
