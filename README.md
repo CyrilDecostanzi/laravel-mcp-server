@@ -13,7 +13,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Protocol-5C2D91?style=for-the-badge)](https://modelcontextprotocol.io)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Architecture](#-architecture)
+[Features](#-features) • [Quick Start](#-quick-start) • [Demo Prompts](DEMO_PROMPTS.md) • [Architecture](#-architecture)
 
 </div>
 
@@ -454,6 +454,31 @@ Once connected to Claude Desktop, interact using natural language:
 
 ---
 
+## 🎯 Ready-to-Use Demo Prompts
+
+For comprehensive demo scenarios with **ready-to-copy prompts in French**, see **[DEMO_PROMPTS.md](DEMO_PROMPTS.md)**.
+
+This file includes:
+- ✅ **60+ tested prompts** organized by category
+- ✅ **4 complete demo scenarios** (5-10 minutes each)
+- ✅ **Tips and best practices** for impressive presentations
+- ✅ **Complex workflow examples** combining multiple tools
+- ✅ All prompts in French for French-speaking audiences
+
+**Categories covered:**
+- 🧠 Advanced RFM Analytics
+- 📈 Sales Forecasting
+- 🛍️ Product Recommendations
+- ✏️ Order Management (CRUD)
+- 📦 Inventory Management (CRUD)
+- 💰 Dynamic Pricing
+- 🔄 Complex Workflows
+- 📊 Classic Analytics
+
+Perfect for live demos, presentations, and training sessions!
+
+---
+
 ## Development
 
 ### Project Structure
@@ -464,7 +489,7 @@ laravel-mcp-server/
 │   ├── Http/Controllers/       # HTTP controllers
 │   ├── Models/                 # Eloquent models (User, Product, Order, etc.)
 │   ├── Mcp/
-│   │   ├── Tools/              # 15 MCP tool implementations
+│   │   ├── Tools/              # 24 MCP tool implementations
 │   │   ├── Resources/          # 2 MCP resources
 │   │   └── Servers/            # MCP server registration
 │   └── Services/               # Business logic layer
@@ -486,6 +511,9 @@ laravel-mcp-server/
 ├── tests/
 │   ├── Feature/                # Integration tests
 │   └── Unit/                   # Unit tests
+├── DEMO_PROMPTS.md             # 🎯 Ready-to-use demo prompts (French)
+├── CLAUDE.md                   # Guide for Claude Code
+├── ARCHITECTURE.md             # Detailed architecture documentation
 └── compose.yaml                # Docker Compose configuration
 ```
 
