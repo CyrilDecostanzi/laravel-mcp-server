@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Services\Inventory\InventoryManagementService;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -23,27 +24,29 @@ class CreateProductTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
         $data = [
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'sku' => $request->input('sku'),
-            'price' => $request->input('price'),
-            'stock' => $request->input('stock', 0),
-            'is_active' => $request->input('is_active', true),
+            'name' => $request->get('name'),
+            'description' => $request->get('description'),
+            'sku' => $request->get('sku'),
+            'price' => $request->get('price'),
+            'stock' => $request->get('stock', 0),
+            'is_active' => $request->get('is_active', true),
         ];
 
         $result = $this->inventoryService->createProduct($data);
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {
@@ -57,11 +60,9 @@ class CreateProductTool extends Tool
                 ->description('Product SKU (auto-generated if not provided)'),
             'price' => $schema->number()
                 ->description('Product price')
-                ->minimum(0)
                 ->required(),
             'stock' => $schema->integer()
                 ->description('Initial stock quantity')
-                ->minimum(0)
                 ->default(0),
             'is_active' => $schema->boolean()
                 ->description('Whether the product is active')

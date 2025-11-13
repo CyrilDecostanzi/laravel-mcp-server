@@ -23,12 +23,14 @@ class GetSalesForecastTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
-        $period = $request->input('period', 'daily');
-        $forecastDays = $request->input('forecast_days', 7);
-        $includeInsights = $request->input('include_insights', true);
+        $period = $request->get('period', 'daily');
+        $forecastDays = $request->get('forecast_days', 7);
+        $includeInsights = $request->get('include_insights', true);
 
         $result = $this->forecastService->forecastSales($period, $forecastDays);
 
@@ -37,13 +39,13 @@ class GetSalesForecastTool extends Tool
             $result['insights'] = $insights;
         }
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {

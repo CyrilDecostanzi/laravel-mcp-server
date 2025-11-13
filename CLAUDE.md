@@ -175,7 +175,7 @@ class YourToolName extends Tool
     public function handle(Request $request): Response
     {
         // Extract parameters
-        $param = $request->input('param_name');
+        $param = $request->get('param_name');
 
         // Delegate to service
         $result = $this->yourService->yourMethod($param);

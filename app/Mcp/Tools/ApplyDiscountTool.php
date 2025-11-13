@@ -23,21 +23,23 @@ class ApplyDiscountTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
-        $productId = $request->input('product_id');
-        $discountPercentage = $request->input('discount_percentage');
+        $productId = $request->get('product_id');
+        $discountPercentage = $request->get('discount_percentage');
 
         $result = $this->inventoryService->applyDiscount($productId, $discountPercentage);
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {
@@ -47,8 +49,6 @@ class ApplyDiscountTool extends Tool
                 ->required(),
             'discount_percentage' => $schema->number()
                 ->description('Discount percentage (0-100)')
-                ->minimum(0)
-                ->maximum(100)
                 ->required(),
         ];
     }

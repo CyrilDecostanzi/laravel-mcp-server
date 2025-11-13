@@ -23,6 +23,8 @@ class SearchUsersTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
@@ -36,13 +38,13 @@ class SearchUsersTool extends Tool
             $validated['limit'] ?? 10
         );
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {

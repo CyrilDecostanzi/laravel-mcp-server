@@ -39,9 +39,9 @@ class OrderCreationService
                 $product = Product::findOrFail($item['product_id']);
 
                 // Check stock availability
-                if ($product->stock < $item['quantity']) {
+                if ($product->stock_quantity < $item['quantity']) {
                     throw ValidationException::withMessages([
-                        'stock' => "Insufficient stock for product: {$product->name}. Available: {$product->stock}, Requested: {$item['quantity']}",
+                        'stock' => "Insufficient stock for product: {$product->name}. Available: {$product->stock_quantity}, Requested: {$item['quantity']}",
                     ]);
                 }
 
@@ -60,7 +60,7 @@ class OrderCreationService
 
                 // Decrease stock if specified
                 if ($data['decrease_stock'] ?? false) {
-                    $product->stock -= $quantity;
+                    $product->stock_quantity -= $quantity;
                     $product->save();
                 }
             }
@@ -68,6 +68,10 @@ class OrderCreationService
             $order->subtotal = $subtotal;
             $order->tax = $subtotal * 0.20; // 20% VAT
             $order->total = $order->subtotal + $order->tax;
+
+            // Generate unique order number
+            $order->order_number = 'ORD-'.strtoupper(uniqid('', true));
+
             $order->save();
 
             // Create order items
@@ -75,8 +79,11 @@ class OrderCreationService
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product']->id,
+                    'product_name' => $item['product']->name,
+                    'product_sku' => $item['product']->sku,
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['unit_price'],
+                    'total_price' => $item['total'],
                 ]);
             }
 
@@ -89,7 +96,7 @@ class OrderCreationService
                 'success' => true,
                 'order' => [
                     'id' => $order->id,
-                    'order_number' => 'ORD-'.str_pad($order->id, 6, '0', STR_PAD_LEFT),
+                    'order_number' => $order->order_number,
                     'customer' => [
                         'id' => $customer->id,
                         'name' => $customer->name,
@@ -172,7 +179,7 @@ class OrderCreationService
             throw ValidationException::withMessages(['customer_id' => 'Customer ID is required']);
         }
 
-        if (! isset($data['items']) || ! is_array($data['items']) || empty($data['items'])) {
+        if (! is_array($data['items']) || empty($data['items'])) {
             throw ValidationException::withMessages(['items' => 'Order must have at least one item']);
         }
 

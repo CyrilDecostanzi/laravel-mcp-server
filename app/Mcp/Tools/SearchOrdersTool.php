@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Models\Order;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -18,51 +19,36 @@ class SearchOrdersTool extends Tool
     MARKDOWN;
 
     /**
-     * Define the tool's input schema.
+     * Get the tool's input schema.
+     *
+     * @return array<string, JsonSchema>
      */
-    public function inputSchema(): JsonSchema
+    public function schema(JsonSchema $schema): array
     {
-        return new JsonSchema([
-            'type' => 'object',
-            'properties' => [
-                'query' => [
-                    'type' => 'string',
-                    'description' => 'Search query (order number, customer email, or name)',
-                ],
-                'status' => [
-                    'type' => 'string',
-                    'description' => 'Filter by order status',
-                    'enum' => ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
-                ],
-                'date_from' => [
-                    'type' => 'string',
-                    'description' => 'Filter orders from this date (YYYY-MM-DD)',
-                ],
-                'date_to' => [
-                    'type' => 'string',
-                    'description' => 'Filter orders until this date (YYYY-MM-DD)',
-                ],
-                'min_amount' => [
-                    'type' => 'number',
-                    'description' => 'Minimum order total amount',
-                ],
-                'max_amount' => [
-                    'type' => 'number',
-                    'description' => 'Maximum order total amount',
-                ],
-                'limit' => [
-                    'type' => 'integer',
-                    'description' => 'Maximum number of results (default: 20, max: 100)',
-                    'default' => 20,
-                    'minimum' => 1,
-                    'maximum' => 100,
-                ],
-            ],
-        ]);
+        return [
+            'query' => $schema->string()
+                ->description('Search query (order number, customer email, or name)'),
+            'status' => $schema->string()
+                ->description('Filter by order status')
+                ->enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
+            'date_from' => $schema->string()
+                ->description('Filter orders from this date (YYYY-MM-DD)'),
+            'date_to' => $schema->string()
+                ->description('Filter orders until this date (YYYY-MM-DD)'),
+            'min_amount' => $schema->number()
+                ->description('Minimum order total amount'),
+            'max_amount' => $schema->number()
+                ->description('Maximum order total amount'),
+            'limit' => $schema->integer()
+                ->description('Maximum number of results (default: 20, max: 100)')
+                ->default(20),
+        ];
     }
 
     /**
      * Handle the tool request.
+     *
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
@@ -164,6 +150,6 @@ class SearchOrdersTool extends Tool
             'timestamp' => now()->toISOString(),
         ];
 
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 }

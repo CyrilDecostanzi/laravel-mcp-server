@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Services\Order\OrderCreationService;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -23,26 +24,28 @@ class CreateOrderTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
         $data = [
-            'customer_id' => $request->input('customer_id'),
-            'items' => $request->input('items'),
-            'status' => $request->input('status', 'pending'),
-            'notes' => $request->input('notes'),
-            'decrease_stock' => $request->input('decrease_stock', true),
+            'customer_id' => $request->get('customer_id'),
+            'items' => $request->get('items'),
+            'status' => $request->get('status', 'pending'),
+            'notes' => $request->get('notes'),
+            'decrease_stock' => $request->get('decrease_stock', true),
         ];
 
         $result = $this->orderService->createOrder($data);
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {
@@ -53,12 +56,11 @@ class CreateOrderTool extends Tool
             'items' => $schema->array()
                 ->description('Array of order items')
                 ->items(
-                    $schema->object()
-                        ->properties([
-                            'product_id' => $schema->integer()->description('Product ID')->required(),
-                            'quantity' => $schema->integer()->description('Quantity to order')->required(),
-                            'unit_price' => $schema->number()->description('Unit price (optional, defaults to product price)'),
-                        ])
+                    $schema->object([
+                        'product_id' => $schema->integer()->description('Product ID')->required(),
+                        'quantity' => $schema->integer()->description('Quantity to order')->required(),
+                        'unit_price' => $schema->number()->description('Unit price (optional, defaults to product price)'),
+                    ])
                 )
                 ->required(),
             'status' => $schema->string()

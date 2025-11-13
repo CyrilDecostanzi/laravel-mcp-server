@@ -3,7 +3,6 @@
 namespace App\Mcp\Tools;
 
 use App\Services\System\SystemHealthService;
-use Illuminate\JsonSchema\JsonSchema;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -23,23 +22,13 @@ class HealthCheckTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
         $result = $this->systemHealthService->checkHealth();
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
-    }
-
-    /**
-     * Get the tool's input schema.
-     *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
-     */
-    public function schema(JsonSchema $schema): array
-    {
-        return [
-            // No input parameters required
-        ];
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 }

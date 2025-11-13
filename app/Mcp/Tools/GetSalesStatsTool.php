@@ -22,11 +22,13 @@ class GetSalesStatsTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
         $result = $this->salesAnalyticsService->getSalesStats();
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 }

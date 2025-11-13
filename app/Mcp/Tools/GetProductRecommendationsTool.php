@@ -23,13 +23,15 @@ class GetProductRecommendationsTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
-        $type = $request->input('type', 'for_customer');
-        $customerId = $request->input('customer_id');
-        $productId = $request->input('product_id');
-        $limit = $request->input('limit', 5);
+        $type = $request->get('type', 'for_customer');
+        $customerId = $request->get('customer_id');
+        $productId = $request->get('product_id');
+        $limit = $request->get('limit', 5);
 
         $result = match ($type) {
             'for_customer' => $this->recommendationService->getRecommendationsForCustomer($customerId, $limit),
@@ -38,13 +40,13 @@ class GetProductRecommendationsTool extends Tool
             default => ['error' => 'Invalid recommendation type'],
         };
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {

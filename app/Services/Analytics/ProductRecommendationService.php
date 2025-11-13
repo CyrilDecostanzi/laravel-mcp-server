@@ -79,10 +79,10 @@ class ProductRecommendationService
                 'products.name',
                 'products.sku',
                 'products.price',
-                'products.stock',
+                'products.stock_quantity',
                 DB::raw('COUNT(*) as times_bought_together')
             )
-            ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock')
+            ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock_quantity')
             ->orderByDesc('times_bought_together')
             ->limit($limit)
             ->get()
@@ -91,7 +91,7 @@ class ProductRecommendationService
                 'name' => $item->name,
                 'sku' => $item->sku,
                 'price' => round((float) $item->price, 2),
-                'stock' => $item->stock,
+                'stock_quantity' => $item->stock_quantity,
                 'times_bought_together' => (int) $item->times_bought_together,
                 'confidence_score' => min(100, ((int) $item->times_bought_together) * 10),
             ])
@@ -139,7 +139,7 @@ class ProductRecommendationService
                 'price' => round((float) $item->price, 2),
                 'price_difference' => round((float) ($item->price - $product->price), 2),
                 'price_increase_percentage' => round((($item->price - $product->price) / $product->price) * 100, 1),
-                'stock' => $item->stock,
+                'stock_quantity' => $item->stock_quantity,
             ])
             ->toArray();
 
@@ -171,12 +171,12 @@ class ProductRecommendationService
                 'products.name',
                 'products.sku',
                 'products.price',
-                'products.stock',
+                'products.stock_quantity',
                 DB::raw('SUM(order_items.quantity) as total_sold'),
                 DB::raw('COUNT(DISTINCT orders.id) as orders_count'),
                 DB::raw('SUM(order_items.quantity * order_items.unit_price) as revenue')
             )
-            ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock')
+            ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock_quantity')
             ->orderByDesc('total_sold')
             ->limit($limit)
             ->get()
@@ -185,7 +185,7 @@ class ProductRecommendationService
                 'name' => $item->name,
                 'sku' => $item->sku,
                 'price' => round((float) $item->price, 2),
-                'stock' => $item->stock,
+                'stock_quantity' => $item->stock_quantity,
                 'units_sold' => (int) $item->total_sold,
                 'orders_count' => (int) $item->orders_count,
                 'revenue' => round((float) $item->revenue, 2),
@@ -221,10 +221,10 @@ class ProductRecommendationService
                 'products.name',
                 'products.sku',
                 'products.price',
-                'products.stock',
+                'products.stock_quantity',
                 DB::raw('COUNT(*) as frequency')
             )
-            ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock')
+            ->groupBy('products.id', 'products.name', 'products.sku', 'products.price', 'products.stock_quantity')
             ->orderByDesc('frequency')
             ->limit($limit)
             ->get()
@@ -233,7 +233,7 @@ class ProductRecommendationService
                 'name' => $item->name,
                 'sku' => $item->sku,
                 'price' => round((float) $item->price, 2),
-                'stock' => $item->stock,
+                'stock_quantity' => $item->stock_quantity,
                 'recommendation_score' => (int) $item->frequency,
                 'reason' => 'Frequently bought with your purchases',
             ])
@@ -258,7 +258,7 @@ class ProductRecommendationService
                 'name' => $product->name,
                 'sku' => $product->sku,
                 'price' => round((float) $product->price, 2),
-                'stock' => $product->stock,
+                'stock_quantity' => $product->stock_quantity,
                 'recommendation_score' => 75,
                 'reason' => 'Popular product',
             ])

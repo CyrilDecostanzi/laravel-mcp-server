@@ -24,20 +24,13 @@ class GetCustomerInsightsTool extends Tool
     /**
      * Define the tool's input schema.
      */
-    public function inputSchema(): JsonSchema
+    public function schema(JsonSchema $schema): array
     {
-        return new JsonSchema([
-            'type' => 'object',
-            'properties' => [
-                'limit' => [
-                    'type' => 'integer',
-                    'description' => 'Number of top customers to return (default: 20)',
-                    'default' => 20,
-                    'minimum' => 1,
-                    'maximum' => 100,
-                ],
-            ],
-        ]);
+        return [
+            'limit' => $schema->integer()
+                ->description('Maximum number of customers to include in the insights')
+                ->default(20),
+        ];
     }
 
     /**
@@ -45,7 +38,7 @@ class GetCustomerInsightsTool extends Tool
      */
     public function handle(Request $request): Response
     {
-        $limit = min($request->params['limit'] ?? 20, 100);
+        $limit = min($request->get('limit', 20), 100);
 
         $result = $this->customerInsightsService->getCustomerInsights($limit);
 

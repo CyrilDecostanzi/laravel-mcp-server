@@ -547,7 +547,7 @@ class GetProductReport extends Tool
 
     public function handle(Request $request): Response
     {
-        $productId = $request->input('product_id');
+        $productId = $request->get('product_id');
 
         $report = $this->salesService->getProductReport($productId);
 

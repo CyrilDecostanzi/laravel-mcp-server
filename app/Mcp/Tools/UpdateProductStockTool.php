@@ -23,22 +23,24 @@ class UpdateProductStockTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
-        $productId = $request->input('product_id');
-        $quantity = $request->input('quantity');
-        $operation = $request->input('operation', 'set');
+        $productId = $request->get('product_id');
+        $quantity = $request->get('quantity');
+        $operation = $request->get('operation', 'set');
 
         $result = $this->inventoryService->updateStock($productId, $quantity, $operation);
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {

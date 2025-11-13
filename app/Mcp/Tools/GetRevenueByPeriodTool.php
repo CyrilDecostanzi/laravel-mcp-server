@@ -18,27 +18,20 @@ class GetRevenueByPeriodTool extends Tool
     MARKDOWN;
 
     /**
-     * Define the tool's input schema.
+     * Get the tool's input schema.
+     *
+     * @return array<string, JsonSchema>
      */
-    public function inputSchema(): JsonSchema
+    public function schema(JsonSchema $schema): array
     {
-        return new JsonSchema([
-            'type' => 'object',
-            'properties' => [
-                'period' => [
-                    'type' => 'string',
-                    'description' => 'Time period for revenue breakdown',
-                    'enum' => ['daily', 'weekly', 'monthly'],
-                    'default' => 'monthly',
-                ],
-                'limit' => [
-                    'type' => 'integer',
-                    'description' => 'Number of periods to return (default: 12 for monthly, 8 for weekly, 30 for daily)',
-                    'minimum' => 1,
-                    'maximum' => 100,
-                ],
-            ],
-        ]);
+        return [
+            'period' => $schema->string()
+                ->description('Time period for revenue breakdown')
+                ->enum(['daily', 'weekly', 'monthly'])
+                ->default('monthly'),
+            'limit' => $schema->integer()
+                ->description('Number of periods to return (default: 12 for monthly, 8 for weekly, 30 for daily)'),
+        ];
     }
 
     /**
@@ -46,8 +39,8 @@ class GetRevenueByPeriodTool extends Tool
      */
     public function handle(Request $request): Response
     {
-        $period = $request->params['period'] ?? 'monthly';
-        $limit = $request->params['limit'] ?? match ($period) {
+        $period = $request->get('period', 'monthly');
+        $limit = $request->get('limit') ?? match ($period) {
             'daily' => 30,
             'weekly' => 8,
             'monthly' => 12,

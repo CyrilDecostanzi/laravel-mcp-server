@@ -23,28 +23,29 @@ class GetTrendingProductsTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws \JsonException
      */
     public function handle(Request $request): Response
     {
-        $days = $request->input('days', 7);
-        $limit = $request->input('limit', 10);
+        $days = $request->get('days', 7);
+        $limit = $request->get('limit', 10);
 
         $result = $this->recommendationService->getTrendingProducts($days, $limit);
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {
         return [
             'days' => $schema->integer()
                 ->description('Number of days to analyze for trends')
-                ->minimum(1)
                 ->default(7),
             'limit' => $schema->integer()
                 ->description('Maximum number of trending products to return')

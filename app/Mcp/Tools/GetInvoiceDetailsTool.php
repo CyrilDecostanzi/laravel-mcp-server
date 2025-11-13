@@ -20,37 +20,22 @@ class GetInvoiceDetailsTool extends Tool
     /**
      * Define the tool's input schema.
      */
-    public function inputSchema(): JsonSchema
+    public function schema(JsonSchema $schema): array
     {
-        return new JsonSchema([
-            'type' => 'object',
-            'properties' => [
-                'query' => [
-                    'type' => 'string',
-                    'description' => 'Search query (invoice number or customer email)',
-                ],
-                'status' => [
-                    'type' => 'string',
-                    'description' => 'Filter by invoice status',
-                    'enum' => ['draft', 'sent', 'paid', 'overdue', 'cancelled'],
-                ],
-                'date_from' => [
-                    'type' => 'string',
-                    'description' => 'Filter invoices from this date (YYYY-MM-DD)',
-                ],
-                'date_to' => [
-                    'type' => 'string',
-                    'description' => 'Filter invoices until this date (YYYY-MM-DD)',
-                ],
-                'limit' => [
-                    'type' => 'integer',
-                    'description' => 'Maximum number of results (default: 20, max: 100)',
-                    'default' => 20,
-                    'minimum' => 1,
-                    'maximum' => 100,
-                ],
-            ],
-        ]);
+        return [
+            'query' => $schema->string()
+                ->description('Search query (invoice number, customer email, or name)'),
+            'status' => $schema->string()
+                ->description('Filter by invoice status')
+                ->enum(['draft', 'sent', 'paid', 'overdue', 'cancelled']),
+            'date_from' => $schema->string()
+                ->description('Filter invoices from this issue date (YYYY-MM-DD)'),
+            'date_to' => $schema->string()
+                ->description('Filter invoices until this issue date (YYYY-MM-DD)'),
+            'limit' => $schema->integer()
+                ->description('Maximum number of results (default: 20, max: 100)')
+                ->default(20),
+        ];
     }
 
     /**

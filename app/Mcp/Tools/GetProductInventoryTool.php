@@ -18,48 +18,31 @@ class GetProductInventoryTool extends Tool
     MARKDOWN;
 
     /**
-     * Define the tool's input schema.
+     * Get the tool's input schema.
+     *
+     * @return array<string, JsonSchema>
      */
-    public function inputSchema(): JsonSchema
+    public function schema(JsonSchema $schema): array
     {
-        return new JsonSchema([
-            'type' => 'object',
-            'properties' => [
-                'query' => [
-                    'type' => 'string',
-                    'description' => 'Search query (product name or SKU)',
-                ],
-                'stock_status' => [
-                    'type' => 'string',
-                    'description' => 'Filter by stock status',
-                    'enum' => ['all', 'in_stock', 'low_stock', 'out_of_stock'],
-                    'default' => 'all',
-                ],
-                'is_active' => [
-                    'type' => 'boolean',
-                    'description' => 'Filter by active status',
-                ],
-                'min_price' => [
-                    'type' => 'number',
-                    'description' => 'Minimum product price',
-                ],
-                'max_price' => [
-                    'type' => 'number',
-                    'description' => 'Maximum product price',
-                ],
-                'category_id' => [
-                    'type' => 'integer',
-                    'description' => 'Filter by category ID',
-                ],
-                'limit' => [
-                    'type' => 'integer',
-                    'description' => 'Maximum number of results (default: 50, max: 200)',
-                    'default' => 50,
-                    'minimum' => 1,
-                    'maximum' => 200,
-                ],
-            ],
-        ]);
+        return [
+            'query' => $schema->string()
+                ->description('Search query (product name or SKU)'),
+            'stock_status' => $schema->string()
+                ->description('Filter by stock status')
+                ->enum(['all', 'in_stock', 'low_stock', 'out_of_stock'])
+                ->default('all'),
+            'is_active' => $schema->boolean()
+                ->description('Filter by active status'),
+            'min_price' => $schema->number()
+                ->description('Minimum product price'),
+            'max_price' => $schema->number()
+                ->description('Maximum product price'),
+            'category_id' => $schema->integer()
+                ->description('Filter by category ID'),
+            'limit' => $schema->integer()
+                ->description('Maximum number of results (default: 50, max: 200)')
+                ->default(50),
+        ];
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Services\Analytics\RfmAnalysisService;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -23,11 +24,13 @@ class GetRfmAnalysisTool extends Tool
 
     /**
      * Handle the tool request.
+     *
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
-        $limit = $request->input('limit', 100);
-        $includeInsights = $request->input('include_insights', true);
+        $limit = $request->get('limit', 100);
+        $includeInsights = $request->get('include_insights', true);
 
         $result = $this->rfmService->getRfmAnalysis($limit);
 
@@ -36,13 +39,13 @@ class GetRfmAnalysisTool extends Tool
             $result['insights'] = $insights;
         }
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get the tool's input schema.
      *
-     * @return array<string, \Illuminate\JsonSchema\JsonSchema>
+     * @return array<string, JsonSchema>
      */
     public function schema(JsonSchema $schema): array
     {

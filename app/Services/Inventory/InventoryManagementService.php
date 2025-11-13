@@ -14,17 +14,17 @@ class InventoryManagementService
     {
         try {
             $product = Product::findOrFail($productId);
-            $oldStock = $product->stock;
+            $oldStock = $product->stock_quantity;
 
             switch ($operation) {
                 case 'set':
-                    $product->stock = max(0, $quantity);
+                    $product->stock_quantity = max(0, $quantity);
                     break;
                 case 'add':
-                    $product->stock += $quantity;
+                    $product->stock_quantity += $quantity;
                     break;
                 case 'subtract':
-                    $product->stock = max(0, $product->stock - $quantity);
+                    $product->stock_quantity = max(0, $product->stock_quantity - $quantity);
                     break;
                 default:
                     throw ValidationException::withMessages([
@@ -34,7 +34,7 @@ class InventoryManagementService
 
             $product->save();
 
-            $stockStatus = $this->getStockStatus($product->stock);
+            $stockStatus = $this->getStockStatus($product->stock_quantity);
 
             return [
                 'success' => true,
@@ -43,11 +43,11 @@ class InventoryManagementService
                     'name' => $product->name,
                     'sku' => $product->sku,
                     'old_stock' => $oldStock,
-                    'new_stock' => $product->stock,
-                    'stock_change' => $product->stock - $oldStock,
+                    'new_stock' => $product->stock_quantity,
+                    'stock_change' => $product->stock_quantity - $oldStock,
                     'stock_status' => $stockStatus,
                 ],
-                'message' => "Stock updated for '{$product->name}': {$oldStock} → {$product->stock}",
+                'message' => "Stock updated for '{$product->name}': {$oldStock} → {$product->stock_quantity}",
                 'timestamp' => now()->toISOString(),
             ];
 
@@ -215,7 +215,7 @@ class InventoryManagementService
                     'name' => $product->name,
                     'sku' => $product->sku,
                     'price' => round((float) $product->price, 2),
-                    'stock' => $product->stock,
+                    'stock_quantity' => $product->stock_quantity,
                     'is_active' => $product->is_active,
                     'created_at' => $product->created_at->toISOString(),
                 ],
