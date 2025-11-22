@@ -1,6 +1,6 @@
 # Laravel MCP Server
 
-### Production-Ready AI Integration for Business Intelligence
+### AI Integration for Business Intelligence
 
 **A comprehensive Model Context Protocol (MCP) server implementation that bridges AI assistants with enterprise business systems, demonstrating how natural language interfaces can transform business intelligence and data access.**
 
@@ -84,7 +84,7 @@ Traditional BI systems require training, specialized skills, and often expensive
 - **Contextual Intelligence**: AI understands business context and provides relevant insights
 - **Role-Based Insights**: Same data, different perspectives based on user needs
 
-**ROI Example**: A mid-size e-commerce company (€10M revenue, 100 employees) can save approximately **€299,000 annually** by eliminating BI software licenses, reducing analyst workload, and accelerating decision-making. ([See full business case](BUSINESS_CASE.md))
+**ROI Example**: A mid-size e-commerce company (€10M revenue, 100 employees) can save approximately **€299,000 annually** by eliminating BI software licenses, reducing analyst workload, and accelerating decision-making.)
 
 #### 2. **Real-Time Decision Support**
 
@@ -145,7 +145,7 @@ Beyond immediate operational benefits, MCP architecture positions organizations 
 | Training & Onboarding | €19,500 | €2,000 | **€17,500** |
 | **Total Annual Savings** | | | **€179,500** |
 
-*Based on mid-size e-commerce company (€10M revenue, 100 employees). [Full ROI analysis](BUSINESS_CASE.md)*
+*Based on mid-size e-commerce company (€10M revenue, 100 employees). 
 
 #### Accessibility Improvement
 - **Traditional BI**: 5-10% of employees (data analysts, BI specialists)
@@ -678,14 +678,8 @@ laravel-mcp-server/
 │   └── Unit/                     # Unit tests
 ├── compose.yaml                  # Docker Compose configuration
 ├── phpunit.xml                   # PHPUnit configuration
-└── Documentation (7 files)
-    ├── README.md                 # This file
-    ├── ARCHITECTURE.md           # Detailed architecture documentation
-    ├── BUSINESS_CASE.md          # ROI analysis and business justification
-    ├── DEMO_SCENARIOS.md         # Demo scripts for various audiences
-    ├── DEMO_PROMPTS.md           # Ready-to-use demo prompts (French)
-    ├── PITCH_GUIDE.md            # Sales enablement material
-    └── DOCUMENTATION_INDEX.md    # Navigation guide
+├── README.md                 # This file
+├── ARCHITECTURE.md           # Detailed architecture documentation
 ```
 
 ### Creating New MCP Tools
@@ -1205,17 +1199,6 @@ This project includes comprehensive documentation for different audiences:
 |----------|----------|---------|
 | [README.md](README.md) | All | Overview, quick start, features, technical reference |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Developers, Architects | Detailed system architecture, design patterns, best practices |
-| [BUSINESS_CASE.md](BUSINESS_CASE.md) | Executives, Investors | ROI analysis, market opportunity, competitive landscape |
-| [DEMO_SCENARIOS.md](DEMO_SCENARIOS.md) | Sales, Marketing | Demo scripts for various audiences (4-5 min each) |
-| [DEMO_PROMPTS.md](DEMO_PROMPTS.md) | Sales, Demo Users | Ready-to-use prompts in French for feature demonstrations |
-| [PITCH_GUIDE.md](PITCH_GUIDE.md) | Sales, Business Dev | Elevator pitches, objection handling, closing techniques |
-| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | All | Navigation guide to all documentation |
-
-**Quick Links:**
-- **Want to understand the architecture?** → [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Need business justification?** → [BUSINESS_CASE.md](BUSINESS_CASE.md)
-- **Preparing a demo?** → [DEMO_SCENARIOS.md](DEMO_SCENARIOS.md)
-- **Looking for demo prompts?** → [DEMO_PROMPTS.md](DEMO_PROMPTS.md)
 
 ---
 
