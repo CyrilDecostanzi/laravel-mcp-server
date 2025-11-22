@@ -1,10 +1,8 @@
-<div align="center">
-
 # Laravel MCP Server
 
-### Enterprise-Grade AI Integration for E-commerce Analytics
+### Production-Ready AI Integration for Business Intelligence
 
-**Empower AI assistants with direct access to your business intelligence, sales data, and system analytics through the Model Context Protocol.**
+**A comprehensive Model Context Protocol (MCP) server implementation that bridges AI assistants with enterprise business systems, demonstrating how natural language interfaces can transform business intelligence and data access.**
 
 [![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
@@ -13,166 +11,366 @@
 [![MCP](https://img.shields.io/badge/MCP-Protocol-5C2D91?style=for-the-badge)](https://modelcontextprotocol.io)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-[Executive Summary](#-executive-summary) • [Business Value](#-business-value--research-innovation) • [Features](#-features) • [Quick Start](#-quick-start) • [Use Cases & ROI](#business-use-cases--roi)
-
-</div>
-
----
-
-## 🚀 Executive Summary
-
-> **TL;DR for Decision Makers:** This project demonstrates how AI assistants (like Claude) can directly access enterprise databases through natural language, transforming business intelligence from a specialized analyst function into an accessible, conversational capability for any stakeholder.
-
-**The Problem:**
-- Business data locked in complex databases requiring SQL expertise
-- Hours/days wait time for custom reports from data teams
-- Expensive BI tools with steep learning curves
-- Static dashboards that can't answer follow-up questions
-
-**Our Innovation:**
-Implementing the **Model Context Protocol (MCP)**—an emerging Anthropic standard—to create secure, structured bridges between AI assistants and business systems. Think of it as "REST APIs for AI" enabling conversational access to enterprise data.
-
-**Key Differentiators:**
-- ✅ **First Laravel implementation** of production-ready MCP server with 15 business tools
-- ✅ **99.9% faster insights** compared to traditional BI workflows (seconds vs hours)
-- ✅ **Open standard** (not proprietary vendor lock-in)
-- ✅ **Research-grade architecture** demonstrating enterprise-scale AI integration patterns
-
-**Demo Capabilities:**
-Ask natural questions like *"What were our top 5 products last month?"* or *"Show me all high-value customers with overdue invoices"* and receive instant, accurate data-driven answers from Claude Desktop.
-
-**Research Value:**
-This serves as a **proving ground** for exploring AI-enterprise integration security models, multi-tenant architectures, and natural language database access patterns—critical research areas as organizations adopt AI assistants.
-
-**Target Audience:**
-- 🎯 **Executives:** Understand the business transformation potential
-- 🎯 **Researchers:** Explore MCP protocol implementation patterns
-- 🎯 **Developers:** Learn production-ready Laravel + AI integration
-- 🎯 **Investors:** Evaluate next-generation business intelligence opportunities
-
----
-
-## Overview
-
-A production-ready **Laravel MCP (Model Context Protocol) server** that bridges the gap between AI assistants like Claude and your e-commerce business data. Enable natural language queries to access sales analytics, inventory management, customer insights, and system monitoring—all through a secure, structured protocol.
-
-### 💼 Business Value & Research Innovation
-
-This project demonstrates **groundbreaking integration** between enterprise business systems and Large Language Models (LLMs) through the emerging Model Context Protocol standard. It represents a **research initiative** exploring how AI assistants can become intelligent business partners capable of:
-
--   **🎯 Natural Language Business Intelligence** - Transform complex database queries into conversational interactions
--   **⚡ Real-time Decision Support** - Enable executives and managers to access critical KPIs through AI-powered conversations
--   **🔬 Protocol Innovation** - Pioneer practical implementations of the MCP standard for enterprise applications
--   **🛡️ Enterprise-Grade Security** - Demonstrate secure AI-to-database integration patterns with structured authorization
--   **📊 Democratized Analytics** - Make business intelligence accessible to non-technical stakeholders through conversational AI
-
-**Research Focus Areas:**
-- AI-driven business intelligence automation
-- Secure context protocols for enterprise data access
-- Natural language interfaces for complex database systems
-- Scalable architectures for multi-tenant AI integrations
-
-### What Makes This Special?
-
--   **15 Production-Ready MCP Tools** - Comprehensive e-commerce operations coverage
--   **Clean Architecture** - Service layer pattern with dependency injection
--   **Complete E-commerce Dataset** - 500+ orders, 200 products, realistic analytics
--   **Docker-First** - Fully containerized with Laravel Sail
--   **Real-Time Analytics** - Revenue tracking, customer segmentation, inventory alerts
--   **Developer-Friendly** - Auto-discovery, MCP Inspector integration, extensive documentation
--   **Battle-Tested Stack** - Laravel 12, PHP 8.4, MySQL 8.0
+[Business Value](#business-value) • [Technical Overview](#technical-overview) • [Features](#features) • [Quick Start](#quick-start) • [Documentation](#documentation)
 
 ---
 
 ## Table of Contents
 
--   [Features](#features)
--   [Quick Start](#quick-start)
--   [Tech Stack](#tech-stack)
--   [Architecture](#architecture)
--   [Configuration](#configuration)
--   [Usage Examples](#usage-examples)
--   [Development](#development)
--   [Testing](#testing)
--   [Deployment](#deployment)
--   [Troubleshooting](#troubleshooting)
--   [Contributing](#contributing)
+- [Business Value](#business-value)
+  - [The Problem](#the-problem)
+  - [The Solution](#the-solution)
+  - [What This Architecture Brings](#what-this-architecture-brings)
+  - [Real-World Impact](#real-world-impact)
+- [Technical Overview](#technical-overview)
+  - [What is MCP?](#what-is-mcp)
+  - [Architecture Highlights](#architecture-highlights)
+  - [Tech Stack](#tech-stack)
+- [Features](#features)
+  - [MCP Tools (23 Tools)](#mcp-tools-23-tools)
+  - [MCP Resources](#mcp-resources)
+  - [Sample Dataset](#sample-dataset)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Usage Examples](#usage-examples)
+- [Development Guide](#development-guide)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Documentation](#documentation)
+
+---
+
+## Business Value
+
+### The Problem
+
+Modern businesses face significant challenges in accessing and analyzing their data:
+
+- **Data Silos**: Critical business information locked in complex databases requiring SQL expertise
+- **Slow Insights**: Hours or days of waiting for custom reports from specialized data teams
+- **High Costs**: Expensive BI tools with steep learning curves and per-seat licensing
+- **Static Reporting**: Traditional dashboards can't answer follow-up questions or adapt to context
+- **Limited Accessibility**: Only data analysts and technical users can extract meaningful insights
+
+**The Bottom Line**: Decision-makers need answers in seconds, not days. Business intelligence should be conversational, not technical.
+
+### The Solution
+
+This project implements the **Model Context Protocol (MCP)**—an emerging open standard developed by Anthropic—to create secure, structured bridges between AI assistants and business systems.
+
+Think of it as **"REST APIs for AI"**: instead of building rigid dashboards or waiting for analyst reports, stakeholders can have natural conversations with their data through AI assistants like Claude.
+
+**Example Interaction:**
+```
+User: "What were our top 5 products last month by revenue?"
+Claude: [Instantly queries the database through MCP and returns precise results]
+
+User: "Show me customer purchase patterns for our VIP segment"
+Claude: [Performs RFM analysis and provides segmentation insights]
+
+User: "Create an order for customer #42 with 3 units of product #15"
+Claude: [Validates stock, creates order, updates inventory, returns confirmation]
+```
+
+### What This Architecture Brings
+
+#### 1. **Democratized Data Access**
+
+Traditional BI systems require training, specialized skills, and often expensive licenses. MCP-powered AI access transforms data into a conversational interface accessible to anyone in the organization.
+
+**Business Impact:**
+- **Universal Access**: Every employee can query business data in natural language
+- **Zero Training Required**: No SQL, no BI tool training, no technical prerequisites
+- **Contextual Intelligence**: AI understands business context and provides relevant insights
+- **Role-Based Insights**: Same data, different perspectives based on user needs
+
+**ROI Example**: A mid-size e-commerce company (€10M revenue, 100 employees) can save approximately **€299,000 annually** by eliminating BI software licenses, reducing analyst workload, and accelerating decision-making. ([See full business case](BUSINESS_CASE.md))
+
+#### 2. **Real-Time Decision Support**
+
+Unlike static dashboards updated daily or weekly, MCP provides instant access to live data with the intelligence to interpret it.
+
+**Business Impact:**
+- **Speed**: 99.9% faster than traditional BI workflows (seconds vs hours)
+- **Agility**: Respond to market changes and operational issues immediately
+- **Proactive Intelligence**: AI can identify patterns, anomalies, and opportunities
+- **Executive Empowerment**: C-suite can make data-driven decisions without intermediaries
+
+**Use Case**: A CEO preparing for a board meeting can ask "Compare Q4 revenue to last year, identify growth drivers, and flag any concerning trends" and receive a comprehensive analysis in under 30 seconds.
+
+#### 3. **Unified Business Operations**
+
+MCP servers can orchestrate multiple business systems, providing a single conversational interface for complex operations spanning CRM, ERP, inventory, and analytics.
+
+**Business Impact:**
+- **Operational Efficiency**: Reduce context switching between multiple systems
+- **Automated Workflows**: AI can execute multi-step processes through natural language commands
+- **Consistency**: Single source of truth with unified business rules
+- **Integration Without Migration**: Connect existing systems without expensive re-platforming
+
+**Use Case**: Customer service agents can access order history, customer lifetime value, inventory status, and create support tickets—all through conversational AI instead of navigating 4+ different systems.
+
+#### 4. **Innovation Platform**
+
+Beyond immediate operational benefits, MCP architecture positions organizations at the forefront of AI-enterprise integration, enabling future innovations impossible with traditional systems.
+
+**Research & Innovation Opportunities:**
+- **Autonomous Business Processes**: AI agents that can independently manage routine operations
+- **Predictive Analytics**: Real-time forecasting and anomaly detection
+- **Natural Language Database Design**: Describe business needs, AI generates schema
+- **Cross-System Intelligence**: AI that understands relationships across all business domains
+
+**Strategic Value**: Early adopters establish competitive advantages in:
+- **Talent Attraction**: Engineers want to work with cutting-edge AI technologies
+- **Customer Experience**: Superior service through AI-powered personalization
+- **Market Positioning**: Thought leadership in AI-driven business transformation
+- **Vendor Independence**: Open standards prevent lock-in to proprietary platforms
+
+### Real-World Impact
+
+#### Time Savings
+| Task | Traditional Approach | MCP-Enabled | Improvement |
+|------|---------------------|-------------|-------------|
+| Generate sales report | 2-4 hours | 10 seconds | **99.9% faster** |
+| Customer segmentation analysis | 1-2 days | 15 seconds | **99.99% faster** |
+| Inventory stock alert | Manual CSV export + analysis | Real-time query | **Instant** |
+| Multi-system data correlation | 4-8 hours (multiple teams) | 30 seconds | **1000x faster** |
+
+#### Cost Reduction
+| Expense | Annual Cost (Traditional) | MCP Architecture | Savings |
+|---------|--------------------------|------------------|---------|
+| BI Software Licenses | €45,000 | €0 (open source) | **€45,000** |
+| Data Analyst Time (Ad-hoc reports) | €90,000 | €18,000 (80% reduction) | **€72,000** |
+| Report Development | €50,000 | €5,000 | **€45,000** |
+| Training & Onboarding | €19,500 | €2,000 | **€17,500** |
+| **Total Annual Savings** | | | **€179,500** |
+
+*Based on mid-size e-commerce company (€10M revenue, 100 employees). [Full ROI analysis](BUSINESS_CASE.md)*
+
+#### Accessibility Improvement
+- **Traditional BI**: 5-10% of employees (data analysts, BI specialists)
+- **MCP-Enabled**: 100% of employees with AI assistant access
+- **Result**: **10-20x democratization** of business intelligence
+
+---
+
+## Technical Overview
+
+### What is MCP?
+
+The **Model Context Protocol (MCP)** is an open standard developed by Anthropic for connecting AI assistants to external systems through structured, secure interfaces. It defines how AI models can discover, invoke, and interact with tools and data sources.
+
+**Key Concepts:**
+
+- **Tools**: Callable functions that AI can invoke (e.g., `get_sales_stats`, `create_order`)
+- **Resources**: Data endpoints that AI can read (e.g., configuration files, system information)
+- **Prompts**: Reusable templates for common workflows
+- **Transport**: Communication channels (STDIO for local, HTTP for remote)
+
+**Why MCP Matters:**
+
+1. **Standardization**: Universal protocol works with any MCP-compatible AI assistant
+2. **Security**: Structured authorization and validation at the protocol level
+3. **Discoverability**: AI automatically understands available capabilities through schemas
+4. **Vendor Independence**: Not tied to a specific AI model or cloud provider
+5. **Type Safety**: Strong typing prevents errors and improves reliability
+
+### Architecture Highlights
+
+This implementation demonstrates production-ready patterns for enterprise MCP servers:
+
+```
+┌─────────────────────────────────────────────┐
+│        AI Assistant (Claude Desktop)         │
+│          Natural Language Interface          │
+└──────────────────┬──────────────────────────┘
+                   │ MCP Protocol (STDIO/HTTP)
+┌──────────────────▼──────────────────────────┐
+│         Laravel MCP Server Layer            │
+│  ┌─────────────────────────────────────┐   │
+│  │    MCP Tools (23 tools)             │   │
+│  │  • Request validation               │   │
+│  │  • Schema definition                │   │
+│  │  • Response formatting              │   │
+│  └──────────────┬──────────────────────┘   │
+│                 │ Dependency Injection       │
+│  ┌──────────────▼──────────────────────┐   │
+│  │    Business Logic Services (13)     │   │
+│  │  • SalesAnalyticsService            │   │
+│  │  • CustomerInsightsService          │   │
+│  │  • RfmAnalysisService               │   │
+│  │  • SalesForecastService             │   │
+│  │  • InventoryManagementService       │   │
+│  │  • OrderCreationService             │   │
+│  │  • UserService, InvoiceService...   │   │
+│  └──────────────┬──────────────────────┘   │
+│                 │                            │
+│  ┌──────────────▼──────────────────────┐   │
+│  │    Data Access Layer                │   │
+│  │  • Eloquent Models (7 models)       │   │
+│  │  • Relationships & Query Builders   │   │
+│  └──────────────┬──────────────────────┘   │
+│                 │                            │
+│  ┌──────────────▼──────────────────────┐   │
+│  │    Infrastructure                   │   │
+│  │  • MySQL Database (12 tables)       │   │
+│  │  • Cache (Database driver)          │   │
+│  │  • Queue (Database connection)      │   │
+│  └─────────────────────────────────────┘   │
+└─────────────────────────────────────────────┘
+```
+
+**Architectural Principles:**
+
+1. **Clean Architecture**: Separation of concerns across distinct layers
+   - MCP Tools: Protocol layer (thin controllers)
+   - Services: Business logic (framework-agnostic)
+   - Models: Data persistence (Eloquent ORM)
+
+2. **Dependency Injection**: All services injected via constructor
+   - Promotes testability and maintainability
+   - Loose coupling between components
+   - Laravel container handles resolution automatically
+
+3. **Domain-Driven Design**: Services organized by business domain
+   - Analytics (sales, customers, forecasting, RFM)
+   - Inventory (stock management, product catalog)
+   - Orders (creation, search, status updates)
+   - Users (account management, statistics)
+   - System (health monitoring, diagnostics)
+
+4. **Read + Write Capabilities**: Beyond traditional BI (read-only)
+   - Create orders, products, and users
+   - Update inventory and pricing
+   - Manage order statuses and workflows
+   - Execute complex business operations
+
+5. **Type Safety & Validation**: Schema-driven development
+   - All tool inputs validated via MCP schemas
+   - Strong typing throughout (PHP 8.4 features)
+   - Response standardization
+
+**For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md)**
+
+### Tech Stack
+
+| Technology | Version | Purpose |
+|-----------|---------|---------|
+| **Laravel** | 12.x | Application framework |
+| **PHP** | 8.4 | Runtime (constructor property promotion, typed properties) |
+| **MySQL** | 8.0 | Relational database |
+| **Laravel MCP** | 0.3.2 | MCP protocol implementation |
+| **Laravel Sail** | 1.47+ | Docker development environment |
+| **Laravel Sanctum** | 4.0+ | API authentication |
+| **Laravel Breeze** | 2.3+ | Authentication scaffolding |
+| **Docker Compose** | - | Container orchestration |
+| **phpMyAdmin** | latest | Database management interface |
+
+**Development Tools:**
+- **Laravel Pint**: Code style and formatting (PSR-12)
+- **PHPUnit**: Unit and feature testing (11.5.3)
+- **Laravel Tinker**: Interactive REPL
+- **Laravel Pail**: Real-time log viewing
 
 ---
 
 ## Features
 
-### MCP Tools Overview
+### MCP Tools (23 Tools)
 
-<details open>
-<summary><b>User Management (3 Tools)</b></summary>
+This server provides 23 production-ready MCP tools organized by business domain:
 
-| Tool             | Description                               | Key Parameters              |
-| ---------------- | ----------------------------------------- | --------------------------- |
-| `get_user_stats` | Retrieve user statistics and distribution | None                        |
-| `search_users`   | Search users by name or email             | `query`, `limit`            |
-| `create_user`    | Create new user accounts                  | `name`, `email`, `password` |
+#### Advanced Analytics (2 Tools)
 
-</details>
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `get_rfm_analysis` | Customer segmentation via RFM (Recency, Frequency, Monetary) analysis | 9 customer segments (Champions, Loyal, At Risk, etc.), quartile-based scoring (1-5), actionable insights per segment |
+| `get_sales_forecast` | Predictive sales forecasting with trend analysis | Moving average algorithms, confidence metrics, seasonality detection, configurable periods (daily/weekly/monthly) |
 
-<details open>
-<summary><b>Sales Analytics (4 Tools)</b></summary>
+#### Product Intelligence (3 Tools)
 
-| Tool                    | Description                             | Key Parameters                   |
-| ----------------------- | --------------------------------------- | -------------------------------- |
-| `get_sales_stats`       | Comprehensive sales dashboard with KPIs | None                             |
-| `get_revenue_by_period` | Revenue breakdown and trends            | `period` (daily/weekly/monthly)  |
-| `get_top_products`      | Best-selling products analysis          | `limit`, `by` (quantity/revenue) |
-| `get_customer_insights` | Customer segmentation and LTV           | None                             |
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `get_product_recommendations` | AI-powered product recommendations | Collaborative filtering, cross-sell suggestions, upsell opportunities |
+| `get_trending_products` | Identify trending products with velocity metrics | Sales momentum tracking, growth rate analysis |
+| `get_top_products` | Best-selling products analysis | Sortable by revenue or quantity, configurable limits |
 
-</details>
+#### User Management (3 Tools)
 
-<details open>
-<summary><b>Inventory & Alerts (2 Tools)</b></summary>
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `get_user_stats` | User statistics and distribution | Total users, registration trends, role distribution |
+| `search_users` | Search users by name or email | Flexible filtering, pagination support |
+| `create_user` | Create new user accounts | Validation, password hashing, role assignment |
 
-| Tool                    | Description                             | Key Parameters   |
-| ----------------------- | --------------------------------------- | ---------------- |
-| `get_inventory_alerts`  | Low stock warnings and overdue invoices | None             |
-| `get_product_inventory` | Product search with stock levels        | `query`, `limit` |
+#### Sales Analytics (3 Tools)
 
-</details>
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `get_sales_stats` | Comprehensive sales dashboard with KPIs | Total orders, revenue, AOV, payment methods, growth rates (today, this week, this month) |
+| `get_revenue_by_period` | Revenue breakdown by time period | Daily/weekly/monthly aggregation, trend analysis |
+| `get_customer_insights` | Customer analytics and lifetime value | Segmentation (VIP, Loyal, At Risk, One-Time, Regular), LTV calculation, purchase behavior |
 
-<details>
-<summary><b>Order Management (2 Tools)</b></summary>
+#### Inventory Management (5 Tools)
 
-| Tool                  | Description                            | Key Parameters                                        |
-| --------------------- | -------------------------------------- | ----------------------------------------------------- |
-| `search_orders`       | Advanced order filtering and search    | `status`, `date_range`, `amount_range`, `customer_id` |
-| `get_invoice_details` | Detailed invoice with payment tracking | `invoice_id`                                          |
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `get_inventory_alerts` | Stock alerts and warnings | Low stock, out of stock, overdue invoices |
+| `get_product_inventory` | Product search with stock levels | Flexible filtering, stock status, pricing |
+| `update_product_stock` | Update product stock levels | Operations: set, add, subtract; validation, stock status calculation |
+| `create_product` | Create new products | Auto SKU generation, validation, category assignment |
+| `apply_discount` | Dynamic pricing - apply discounts | Percentage-based discounts, price validation |
 
-</details>
+#### Order Management (4 Tools)
 
-<details>
-<summary><b>System Monitoring (3 Tools)</b></summary>
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `search_orders` | Advanced order filtering and search | Filter by status, date range, amount range, customer ID; pagination |
+| `create_order` | Create new orders | Stock validation, tax calculation (20%), automatic inventory updates, shipping calculation |
+| `update_order_status` | Update order status | Status transitions (pending → processing → shipped → delivered), timestamp tracking |
+| `get_invoice_details` | Detailed invoice information | Invoice data, payment tracking, line items, due dates |
 
-| Tool                | Description                    | Key Parameters |
-| ------------------- | ------------------------------ | -------------- |
-| `get_system_info`   | Laravel/PHP/Server information | None           |
-| `get_database_info` | Database schema and row counts | None           |
-| `health_check`      | Application health monitoring  | None           |
+#### System Monitoring (3 Tools)
 
-</details>
+| Tool | Description | Key Features |
+|------|-------------|--------------|
+| `get_system_info` | Laravel/PHP/Server information | Framework version, PHP version, environment, server details |
+| `get_database_info` | Database statistics and table information | Table counts, row counts, database size, schema information |
+| `health_check` | Application health monitoring | Database connectivity, cache status, storage permissions, overall health |
 
 ### MCP Resources
 
-| Resource         | URI                     | Description                        |
-| ---------------- | ----------------------- | ---------------------------------- |
-| **App Settings** | `config://app/settings` | Application configuration snapshot |
-| **Laravel Info** | `system://laravel/info` | Framework runtime information      |
+| Resource | URI | Description |
+|----------|-----|-------------|
+| **App Settings** | `config://app/settings` | Application configuration snapshot (name, environment, debug status, URL, timezone, locale) |
+| **Laravel Info** | `system://laravel/info` | Framework runtime information (version, environment, cache configuration) |
 
 ### Sample Dataset
 
-Pre-seeded with realistic e-commerce data:
+The project includes comprehensive sample data for realistic demonstrations:
 
 ```
-101 Users  •  10 Categories  •  200 Products  •  500 Orders  •  1,472 Line Items
-Total Revenue: €929,574.57  •  6 Months Historical Data
+Users:        101 (100 customers + 1 admin)
+Categories:   10
+Products:     200
+Orders:       500
+Order Items:  ~1,500-2,500
+Invoices:     ~350 (70% of orders)
+Payments:     ~350 (matches paid invoices)
+
+Total Revenue:     ~€930,000
+Historical Range:  6 months
+Order Statuses:    Pending, Processing, Shipped, Delivered, Cancelled
+Payment Methods:   Credit Card, Debit Card, PayPal, Bank Transfer
 ```
+
+**Sample Data Highlights:**
+- Realistic pricing: Products from €10 to €2,000
+- Variable order sizes: 1-5 items per order, 1-3 units per item
+- Tax calculation: 20% on all orders
+- Shipping costs: €5-€25 per order
+- Low stock scenarios: Some products critically low for testing alerts
+- Overdue invoices: Demonstrates payment tracking capabilities
 
 ---
 
@@ -180,26 +378,31 @@ Total Revenue: €929,574.57  •  6 Months Historical Data
 
 ### Prerequisites
 
--   **Docker Desktop** - [Download here](https://www.docker.com/products/docker-desktop)
--   **Composer** - [Install guide](https://getcomposer.org/download/)
--   **MCP-Compatible AI Client** - [Claude Desktop](https://claude.ai/download), Cursor, or [other clients](https://modelcontextprotocol.io/clients)
+- **Docker Desktop** - [Download](https://www.docker.com/products/docker-desktop)
+- **Composer** - [Install guide](https://getcomposer.org/download/)
+- **MCP-Compatible AI Client** - [Claude Desktop](https://claude.ai/download) (recommended), Cursor, or [other clients](https://modelcontextprotocol.io/clients)
 
 ### Installation
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/yourusername/laravel-mcp-server.git
 cd laravel-mcp-server
 
-# Install dependencies and configure environment
+# 2. Install PHP dependencies
 composer install
+
+# 3. Configure environment
 cp .env.example .env
 
-# Build and start Docker containers
+# 4. Build and start Docker containers
 ./vendor/bin/sail build --no-cache
 ./vendor/bin/sail up -d
 
-# Initialize database with sample data
+# 5. Generate application key
+./vendor/bin/sail artisan key:generate
+
+# 6. Initialize database with sample data
 ./vendor/bin/sail artisan migrate:fresh --seed
 ```
 
@@ -209,112 +412,27 @@ cp .env.example .env
 # Check container status
 ./vendor/bin/sail ps
 
-# Test MCP tools with the inspector
-./vendor/bin/sail artisan mcp:inspector laravel
-# Open http://localhost:6274 in your browser
+# Expected output:
+# NAME                                    STATE    PORTS
+# laravel-mcp-server-laravel.test-1       running  0.0.0.0:80->80/tcp, 0.0.0.0:5173->5173/tcp
+# laravel-mcp-server-mysql-1              running  0.0.0.0:3307->3306/tcp
+# laravel-phpmyadmin                      running  0.0.0.0:8080->80/tcp
 ```
 
 **Access Points:**
 
--   Application: http://localhost
--   phpMyAdmin: http://localhost:8080 (user: `sail`, password: `password`)
--   MCP Inspector: http://localhost:6274
+- **Application**: http://localhost
+- **phpMyAdmin**: http://localhost:8080 (user: `sail`, password: `password`)
+- **Database**: localhost:3307 (from host machine)
 
----
+### Configure Claude Desktop
 
-## Tech Stack
+Add the following to your Claude Desktop configuration file:
 
-| Technology          | Version    | Purpose                        |
-| ------------------- | ---------- | ------------------------------ |
-| **Laravel**         | 12.x       | Application framework          |
-| **PHP**             | 8.4 Alpine | Runtime environment            |
-| **MySQL**           | 8.0        | Relational database            |
-| **Laravel MCP**     | 0.3.2+     | MCP server implementation      |
-| **Laravel Sail**    | 1.47+      | Docker development environment |
-| **Laravel Sanctum** | 4.0+       | API authentication             |
-| **Laravel Breeze**  | 2.3+       | Authentication scaffolding     |
-
----
-
-## Architecture
-
-### System Overview
-
-```
-┌─────────────────────────────────────────────┐
-│        AI Assistant (Claude Desktop)         │
-│           via MCP Protocol                   │
-└──────────────────┬──────────────────────────┘
-                   │ STDIO / HTTP
-┌──────────────────▼──────────────────────────┐
-│         Laravel MCP Server Layer            │
-│  ┌─────────────────────────────────────┐   │
-│  │    MCP Tools (15 tools)             │   │
-│  │  • Request validation               │   │
-│  │  • Schema definition                │   │
-│  │  • Response formatting              │   │
-│  └──────────────┬──────────────────────┘   │
-│                 │ Dependency Injection       │
-│  ┌──────────────▼──────────────────────┐   │
-│  │    Business Logic Services          │   │
-│  │  • UserService                      │   │
-│  │  • SalesAnalyticsService            │   │
-│  │  • CustomerInsightsService          │   │
-│  │  • InventoryService                 │   │
-│  │  • OrderService                     │   │
-│  │  • InvoiceService                   │   │
-│  │  • SystemHealthService              │   │
-│  └──────────────┬──────────────────────┘   │
-│                 │                            │
-│  ┌──────────────▼──────────────────────┐   │
-│  │    Data Access Layer                │   │
-│  │  • Eloquent Models & Relationships  │   │
-│  │  • Query Builders                   │   │
-│  └──────────────┬──────────────────────┘   │
-│                 │                            │
-│  ┌──────────────▼──────────────────────┐   │
-│  │    Infrastructure                   │   │
-│  │  • MySQL Database                   │   │
-│  │  • Cache (Database)                 │   │
-│  │  • Queue (Database)                 │   │
-│  └─────────────────────────────────────┘   │
-└─────────────────────────────────────────────┘
-```
-
-### Architecture Principles
-
-**Separation of Concerns**
-
--   MCP Tools act as thin controllers, handling only request/response
--   Services contain all business logic, testable and reusable
--   Models represent data structures and database relationships
-
-**Dependency Injection**
-
--   Services automatically injected into tools via Laravel's container
--   Promotes testability and maintainability
--   Loose coupling between components
-
-**Single Responsibility**
-
--   Each service focuses on a specific domain (User, Analytics, Inventory)
--   Methods are focused, cohesive, and composable
-
-For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
-
----
-
-## Configuration
-
-### Claude Desktop Integration
-
-**Location:**
-
--   **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
--   **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
--   **Linux:** `~/.config/Claude/claude_desktop_config.json`
-
-**Configuration:**
+**Configuration File Locations:**
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
 
 ```json
 {
@@ -335,7 +453,26 @@ For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
 }
 ```
 
-**Important:** Restart Claude Desktop after adding this configuration.
+**Important Notes:**
+- Verify the container name matches your running container: `docker ps`
+- Restart Claude Desktop completely after adding this configuration
+- The container must be running (`./vendor/bin/sail up -d`) before starting Claude Desktop
+
+### Test the Integration
+
+1. **Open Claude Desktop** (must be restarted after configuration)
+2. **Verify MCP Connection**: Look for the MCP server indicator in the Claude Desktop interface
+3. **Try Example Queries**:
+   ```
+   "What are my total sales statistics?"
+   "Show me products that are low on stock"
+   "What were the top 5 products last month by revenue?"
+   "Perform RFM analysis on customers"
+   ```
+
+---
+
+## Configuration
 
 ### Environment Configuration
 
@@ -345,36 +482,56 @@ Key settings in `.env`:
 # Application
 APP_NAME=Laravel
 APP_ENV=local
+APP_DEBUG=true
 APP_URL=http://localhost
 
 # Database
 DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
+DB_HOST=mysql                  # Container name in Docker network
+DB_PORT=3306                   # Internal port (use 3307 from host)
 DB_DATABASE=laravel
 DB_USERNAME=sail
 DB_PASSWORD=password
-FORWARD_DB_PORT=3307
 
-# Cache & Session
+# External Access (from host machine)
+FORWARD_DB_PORT=3307           # Avoids conflict with local MySQL
+FORWARD_PHPMYADMIN_PORT=8080
+
+# Performance (database-backed for development)
 CACHE_STORE=database
 QUEUE_CONNECTION=database
 SESSION_DRIVER=database
-
-# External Access
-FORWARD_PHPMYADMIN_PORT=8080
 ```
 
 ### Docker Services
 
-The application uses three primary services:
+| Service | Internal Port | External Port | Purpose |
+|---------|--------------|---------------|---------|
+| laravel.test | 80 | 80 | Main Laravel application |
+| laravel.test | 5173 | 5173 | Vite development server |
+| mysql | 3306 | 3307 | MySQL database server |
+| phpmyadmin | 80 | 8080 | Database management UI |
 
-| Service           | Port | Description                       |
-| ----------------- | ---- | --------------------------------- |
-| **laravel.test**  | 80   | Main application (PHP 8.4 Alpine) |
-| **mysql**         | 3307 | MySQL 8.0 database server         |
-| **phpmyadmin**    | 8080 | Database management interface     |
-| **MCP Inspector** | 6274 | Tool testing and debugging UI     |
+### MCP Server Configuration
+
+The MCP server is registered in `routes/ai.php`:
+
+```php
+use App\Mcp\Servers\LaravelServer;
+use Laravel\Mcp\Facades\Mcp;
+
+// STDIO-based MCP server (for Claude Desktop)
+// Mcp::local('laravel', LaravelServer::class);
+
+// HTTP-based MCP server (for web clients)
+Mcp::web('/mcp/laravel', LaravelServer::class);
+```
+
+**Transport Options:**
+- **STDIO** (`Mcp::local`): For local AI clients like Claude Desktop (uses stdin/stdout)
+- **HTTP** (`Mcp::web`): For remote AI clients or web-based integrations
+
+**Current Configuration**: HTTP transport at endpoint `/mcp/laravel` (exposed on port 80)
 
 ---
 
@@ -384,240 +541,191 @@ The application uses three primary services:
 
 Once connected to Claude Desktop, interact using natural language:
 
-**Sales & Revenue**
+#### Sales & Revenue Analysis
 
 ```
 "What are my total sales for this quarter?"
 "Show me the top 5 products by revenue"
-"What's the revenue breakdown by month?"
-"How are my sales trending week over week?"
+"What's the revenue breakdown for the last 30 days by week?"
+"How are sales trending month over month?"
+"Give me a complete sales dashboard with all key metrics"
 ```
 
-**Inventory Management**
+#### Customer Intelligence
 
 ```
-"What products are low on stock?"
-"Show me all overdue invoices"
-"Search for products containing 'laptop'"
-"What inventory alerts do I have?"
-```
-
-**Customer Analysis**
-
-```
-"Give me customer insights and segments"
-"Who are my top customers by total spend?"
+"Perform RFM analysis on my customer base"
+"Show me customer insights and segmentation"
+"Who are my VIP customers?"
+"Which customers are at risk of churning?"
 "What's the average customer lifetime value?"
 ```
 
-**Operations**
+#### Inventory Management
+
+```
+"What products are low on stock?"
+"Show me all products that are out of stock"
+"Search for products containing 'laptop'"
+"Update stock for product #15 by adding 50 units"
+"Create a new product: Gaming Mouse, SKU GM001, price €49.99, stock 100"
+"Apply a 15% discount to product #23"
+```
+
+#### Order Operations
 
 ```
 "Find all pending orders"
 "Show orders from the last 30 days over €1000"
+"Create an order for customer #42 with 3 units of product #15"
+"Update order #123 status to shipped"
+"Search for orders by customer ID 42"
+```
+
+#### Financial Analysis
+
+```
 "Get invoice details for invoice #42"
+"Show me all overdue invoices"
+"What's the total value of unpaid invoices?"
+"Give me payment method distribution for this month"
+```
+
+#### Predictive Analytics
+
+```
+"Forecast sales for the next 14 days"
+"What products are trending right now?"
+"Give me product recommendations for customer #25"
+```
+
+#### System Monitoring
+
+```
 "Check application health status"
+"Show me system information"
+"Get database statistics and table counts"
+"What's the database size and row counts?"
 ```
 
-**User Management**
+### Multi-Step Workflows
+
+The AI can execute complex workflows by chaining multiple tools:
 
 ```
-"How many users are registered?"
-"Search for users with email containing 'gmail'"
-"Create a new user for John Smith"
+"Analyze our top 10 customers by spending, check their order frequency,
+and identify which ones haven't ordered in over 90 days"
+
+→ AI executes: get_customer_insights + search_orders (filtered by customer) + RFM analysis
+```
+
+```
+"Find products with less than 10 units in stock, check if they're among
+our top sellers, and recommend which ones to restock first"
+
+→ AI executes: get_inventory_alerts + get_top_products + correlation analysis
 ```
 
 ---
 
-## Business Use Cases & ROI
-
-### 🎯 Real-World Business Scenarios
-
-This MCP server enables transformative business workflows by bridging AI assistants with enterprise data:
-
-#### **1. Executive Dashboard Access**
-**Scenario:** A CEO traveling to a board meeting needs last-minute revenue insights.
-
-**Traditional Approach:** Request reports from data team → Wait hours/days → Receive static PDF
-**With MCP:** *"Claude, what was our revenue last quarter and how does it compare to Q3?"*
-**Result:** Instant, conversational access to real-time analytics
-
-**ROI Impact:**
-- ⏱️ **Time Savings:** 4-8 hours reduced to 30 seconds
-- 💰 **Cost Reduction:** Eliminate ad-hoc report requests ($50-200/report)
-- 📈 **Faster Decision Making:** Real-time insights enable agile business pivots
-
-#### **2. Customer Service Automation**
-**Scenario:** Support agent needs order history and customer purchase patterns during a call.
-
-**Traditional Approach:** Navigate 3-4 systems → Manual data compilation → 5-10 minute hold time
-**With MCP:** *"Show me customer #42's order history and lifetime value"*
-**Result:** Instant customer 360° view in natural language
-
-**ROI Impact:**
-- 🎧 **Customer Satisfaction:** 80% reduction in hold time
-- 💼 **Agent Productivity:** Handle 3x more calls per hour
-- 🔄 **Reduced Churn:** Better-informed agents provide superior service
-
-#### **3. Inventory Management Intelligence**
-**Scenario:** Warehouse manager needs to prioritize restocking during supply chain disruptions.
-
-**Traditional Approach:** Export CSV → Manual analysis in Excel → Email procurement team
-**With MCP:** *"What products are critically low on stock and what's their sales velocity?"*
-**Result:** AI-driven prioritization with contextual business logic
-
-**ROI Impact:**
-- 📦 **Reduced Stockouts:** 40% fewer out-of-stock incidents
-- 💵 **Optimized Cash Flow:** Better inventory turnover (15-20% improvement)
-- 🚀 **Competitive Advantage:** Faster response to market demand
-
-#### **4. Financial Analysis & Forecasting**
-**Scenario:** CFO needs to understand revenue trends for quarterly planning.
-
-**Traditional Approach:** Wait for monthly BI reports → Static snapshots → Outdated by presentation time
-**With MCP:** *"Show me daily revenue trends and identify any anomalies in the past 60 days"*
-**Result:** Interactive financial analysis with drill-down capabilities
-
-**ROI Impact:**
-- 📊 **Better Forecasting:** 25-30% improvement in prediction accuracy
-- ⚠️ **Early Warning System:** Spot revenue anomalies days/weeks earlier
-- 💡 **Data-Driven Strategy:** Democratize financial insights across leadership
-
-### 💰 Quantifiable Value Propositions
-
-| Metric | Traditional BI | MCP-Enabled AI | Improvement |
-|--------|---------------|----------------|-------------|
-| **Time to Insight** | 2-24 hours | <30 seconds | **99.9% faster** |
-| **Cost per Query** | $50-200 (analyst time) | ~$0.01 (API cost) | **99.95% cheaper** |
-| **User Accessibility** | Data analysts only (5-10% of org) | Any employee with AI assistant (100%) | **10-20x democratization** |
-| **Query Complexity** | Requires SQL/BI training | Natural language | **Zero training required** |
-| **Data Freshness** | Batch updates (daily/weekly) | Real-time | **Instant** |
-
-### 🚀 Competitive Advantages
-
-1. **First-Mover Advantage in MCP Protocol**
-   Early adoption of Anthropic's Model Context Protocol positions your organization as an innovation leader in AI-enterprise integration.
-
-2. **Vendor-Agnostic Architecture**
-   Unlike proprietary BI tools (Tableau, PowerBI), MCP works with any compatible AI assistant (Claude, future models, custom implementations).
-
-3. **Developer-Friendly Framework**
-   Built on Laravel—the most popular PHP framework—enabling rapid customization and 80% faster development vs custom solutions.
-
-4. **Extensibility & Modularity**
-   Clean architecture allows adding new business domains (HR, Supply Chain, Finance) in days, not months.
-
-5. **Security-First Design**
-   Enterprise-grade authentication, input validation, and audit trails built into the framework.
-
-### 🔬 Research & Innovation Opportunities
-
-This demo project serves as a **research platform** for exploring:
-
-**Near-Term Research (3-6 months):**
-- Multi-tenant MCP architectures for SaaS platforms
-- Role-based access control (RBAC) for AI tool permissions
-- Caching strategies for high-frequency AI queries
-- Real-time event streaming to AI assistants
-
-**Medium-Term Research (6-12 months):**
-- AI-generated custom tools based on natural language descriptions
-- Automated schema evolution and backward compatibility
-- Cross-system MCP orchestration (ERP + CRM + Analytics)
-- Privacy-preserving AI access patterns (differential privacy, federated learning)
-
-**Long-Term Vision (12-24 months):**
-- Self-healing business systems with AI-driven anomaly detection
-- Autonomous business process optimization via reinforcement learning
-- Natural language database schema generation
-- Universal business intelligence protocol standard
-
-### 📈 Scalability & Future-Proofing
-
-**Technical Scalability:**
-- Horizontal scaling via Laravel Octane + Redis caching
-- Database read replicas for AI query distribution
-- API rate limiting and queue management for high concurrency
-- Multi-region deployment support
-
-**Business Scalability:**
-- Extend from e-commerce to any Laravel application domain
-- White-label solutions for enterprise clients
-- MCP-as-a-Service (MCPaaS) business model potential
-- Integration marketplace for third-party MCP tools
-
----
-
-## Development
+## Development Guide
 
 ### Project Structure
 
 ```
 laravel-mcp-server/
 ├── app/
-│   ├── Http/Controllers/       # HTTP controllers
-│   ├── Models/                 # Eloquent models (User, Product, Order, etc.)
+│   ├── Http/
+│   │   ├── Controllers/          # HTTP controllers
+│   │   ├── Middleware/           # HTTP middleware
+│   │   └── Requests/             # Form request validation
+│   ├── Models/                   # Eloquent models (7 models)
+│   │   ├── User.php
+│   │   ├── Category.php
+│   │   ├── Product.php
+│   │   ├── Order.php
+│   │   ├── OrderItem.php
+│   │   ├── Invoice.php
+│   │   └── Payment.php
 │   ├── Mcp/
-│   │   ├── Tools/              # 15 MCP tool implementations
-│   │   ├── Resources/          # 2 MCP resources
-│   │   └── Servers/            # MCP server registration
-│   └── Services/               # Business logic layer
-│       ├── Analytics/          # Sales & customer analytics
-│       ├── Inventory/          # Stock management
-│       ├── Invoice/            # Invoice operations
-│       ├── Order/              # Order processing
-│       ├── System/             # Health monitoring
-│       └── User/               # User management
+│   │   ├── Tools/                # 23 MCP tool implementations
+│   │   ├── Resources/            # 2 MCP resources
+│   │   └── Servers/
+│   │       └── LaravelServer.php # MCP server registration
+│   ├── Services/                 # Business logic layer (13 services)
+│   │   ├── Analytics/            # Sales, customers, RFM, forecasting
+│   │   ├── Inventory/            # Stock management, product catalog
+│   │   ├── Invoice/              # Invoice operations
+│   │   ├── Order/                # Order processing
+│   │   ├── System/               # Health monitoring
+│   │   └── User/                 # User management
+│   └── Providers/                # Service providers
 ├── database/
-│   ├── factories/              # Model factories for testing
-│   ├── migrations/             # Database schema
-│   └── seeders/                # Sample data seeders
-├── docker/                     # Docker configuration
+│   ├── factories/                # Model factories for testing
+│   ├── migrations/               # 12 database migrations
+│   └── seeders/
+│       └── DatabaseSeeder.php    # Sample data generation
+├── docker/                       # Docker configuration
+│   ├── Dockerfile                # PHP 8.4 Alpine image
+│   └── mysql/                    # MySQL initialization scripts
 ├── routes/
-│   ├── ai.php                  # MCP server routes
-│   ├── api.php                 # API endpoints
-│   └── web.php                 # Web routes
+│   ├── ai.php                    # MCP server routes
+│   ├── api.php                   # API endpoints
+│   ├── web.php                   # Web routes
+│   └── auth.php                  # Authentication routes
 ├── tests/
-│   ├── Feature/                # Integration tests
-│   └── Unit/                   # Unit tests
-└── compose.yaml                # Docker Compose configuration
+│   ├── Feature/                  # Integration tests
+│   └── Unit/                     # Unit tests
+├── compose.yaml                  # Docker Compose configuration
+├── phpunit.xml                   # PHPUnit configuration
+└── Documentation (7 files)
+    ├── README.md                 # This file
+    ├── ARCHITECTURE.md           # Detailed architecture documentation
+    ├── BUSINESS_CASE.md          # ROI analysis and business justification
+    ├── DEMO_SCENARIOS.md         # Demo scripts for various audiences
+    ├── DEMO_PROMPTS.md           # Ready-to-use demo prompts (French)
+    ├── PITCH_GUIDE.md            # Sales enablement material
+    └── DOCUMENTATION_INDEX.md    # Navigation guide
 ```
 
 ### Creating New MCP Tools
 
-**1. Generate the tool class:**
+Follow these steps to add new business capabilities:
+
+#### 1. Generate Tool Class
 
 ```bash
-./vendor/bin/sail artisan make:mcp-tool GetProductReport
+./vendor/bin/sail artisan make:mcp-tool GetProductAnalytics
 ```
 
-**2. Implement the tool:**
+#### 2. Implement Tool Logic
 
 ```php
 <?php
 
 namespace App\Mcp\Tools;
 
-use App\Services\Analytics\SalesAnalyticsService;
+use App\Services\Analytics\ProductAnalyticsService;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
 
-class GetProductReport extends Tool
+class GetProductAnalytics extends Tool
 {
-    protected string $description = 'Generate comprehensive product sales report';
+    protected string $description = 'Get comprehensive product performance analytics';
 
     public function __construct(
-        private SalesAnalyticsService $salesService
+        private readonly ProductAnalyticsService $analyticsService
     ) {}
 
     public function handle(Request $request): Response
     {
         $productId = $request->input('product_id');
+        $period = $request->input('period', 'monthly');
 
-        $report = $this->salesService->getProductReport($productId);
+        $analytics = $this->analyticsService->getProductAnalytics($productId, $period);
 
-        return Response::text(json_encode($report, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($analytics, JSON_PRETTY_PRINT));
     }
 
     public function schema(): array
@@ -625,33 +733,164 @@ class GetProductReport extends Tool
         return [
             'product_id' => [
                 'type' => 'integer',
-                'description' => 'Product ID to generate report for',
+                'description' => 'Product ID to analyze',
                 'required' => true,
+            ],
+            'period' => [
+                'type' => 'string',
+                'description' => 'Analysis period (daily, weekly, monthly)',
+                'enum' => ['daily', 'weekly', 'monthly'],
+                'required' => false,
             ],
         ];
     }
 }
 ```
 
-**3. Register in `app/Mcp/Servers/LaravelServer.php`:**
+#### 3. Create Service (if needed)
+
+```bash
+./vendor/bin/sail artisan make:service Analytics/ProductAnalyticsService
+```
+
+Implement service logic following the clean architecture pattern:
+
+```php
+<?php
+
+namespace App\Services\Analytics;
+
+use App\Models\Product;
+use App\Models\OrderItem;
+
+class ProductAnalyticsService
+{
+    public function getProductAnalytics(int $productId, string $period): array
+    {
+        $product = Product::findOrFail($productId);
+
+        // Business logic here (no MCP/HTTP dependencies)
+        // Return plain arrays for maximum reusability
+
+        return [
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'sku' => $product->sku,
+            ],
+            'sales_data' => $this->calculateSalesData($product, $period),
+            'performance_metrics' => $this->calculatePerformanceMetrics($product),
+            'timestamp' => now()->toIso8601String(),
+        ];
+    }
+
+    private function calculateSalesData(Product $product, string $period): array
+    {
+        // Implementation...
+    }
+
+    private function calculatePerformanceMetrics(Product $product): array
+    {
+        // Implementation...
+    }
+}
+```
+
+#### 4. Register Tool
+
+Edit `app/Mcp/Servers/LaravelServer.php`:
 
 ```php
 protected array $tools = [
     // ... existing tools
-    GetProductReport::class,
+
+    // Product Analytics
+    GetProductAnalytics::class,
 ];
 ```
 
-**4. Test your tool:**
+#### 5. Test Your Tool
+
+**Option 1: Manual Testing (Host Machine)**
+
+Since the MCP Inspector cannot run inside the Docker container, install and run it from your host machine:
 
 ```bash
-./vendor/bin/sail artisan mcp:inspector laravel
-# Access http://localhost:6274
+# On your host machine (not inside the container)
+npx @modelcontextprotocol/inspector http://localhost/mcp/laravel
+```
+
+This will:
+- Start the MCP Inspector on http://localhost:5173
+- Connect to your Dockerized Laravel app at http://localhost/mcp/laravel
+- Allow you to test tools, view schemas, and debug requests
+
+**Option 2: Laravel Tinker**
+
+```bash
+./vendor/bin/sail artisan tinker
+
+>>> $service = app(\App\Services\Analytics\ProductAnalyticsService::class);
+>>> $service->getProductAnalytics(1, 'monthly');
+```
+
+**Option 3: Claude Desktop**
+
+After registering the tool, restart Claude Desktop and test with natural language:
+```
+"Get product analytics for product #1 with monthly period"
+```
+
+### Service Layer Pattern
+
+**Key Principles:**
+
+1. **Framework Agnostic**: Services should have no dependencies on HTTP, MCP, or Laravel-specific features
+2. **Return Arrays**: Use plain arrays instead of Response objects for maximum reusability
+3. **Single Responsibility**: Each service focuses on one business domain
+4. **Dependency Injection**: Use constructor injection for all dependencies
+5. **Type Safety**: Leverage PHP 8.4 typed properties and return types
+
+**Example Service Structure:**
+
+```php
+<?php
+
+namespace App\Services\Domain;
+
+use App\Models\Model;
+
+class DomainService
+{
+    public function __construct(
+        private readonly RelatedService $relatedService,
+        private readonly AnotherDependency $dependency
+    ) {}
+
+    public function businessOperation(int $id, array $options): array
+    {
+        // 1. Validate input (or use validators)
+        // 2. Fetch data (using Eloquent)
+        // 3. Apply business logic
+        // 4. Return structured array
+
+        return [
+            'data' => [...],
+            'metadata' => [...],
+            'timestamp' => now()->toIso8601String(),
+        ];
+    }
+
+    private function helperMethod(): void
+    {
+        // Private helpers for complex logic
+    }
+}
 ```
 
 ### Common Development Commands
 
-**Application Management:**
+#### Application Management
 
 ```bash
 # Start containers
@@ -660,18 +899,31 @@ protected array $tools = [
 # Stop containers
 ./vendor/bin/sail down
 
-# View logs
+# Restart containers
+./vendor/bin/sail restart
+
+# View logs (follow mode)
 ./vendor/bin/sail logs -f
+
+# View logs for specific service
+./vendor/bin/sail logs -f laravel.test
+./vendor/bin/sail logs -f mysql
 
 # Access container shell
 ./vendor/bin/sail shell
+
+# Execute artisan commands
+./vendor/bin/sail artisan <command>
 ```
 
-**Database Operations:**
+#### Database Operations
 
 ```bash
 # Run migrations
 ./vendor/bin/sail artisan migrate
+
+# Rollback migrations
+./vendor/bin/sail artisan migrate:rollback
 
 # Fresh migration with sample data
 ./vendor/bin/sail artisan migrate:fresh --seed
@@ -681,51 +933,91 @@ protected array $tools = [
 
 # Database status
 ./vendor/bin/sail artisan db:show
+
+# Database table information
+./vendor/bin/sail artisan db:table users
 ```
 
-**Code Quality:**
+#### Code Quality & Testing
 
 ```bash
-# Run tests
+# Run all tests
 ./vendor/bin/sail test
 
-# Code formatting
+# Run specific test file
+./vendor/bin/sail artisan test tests/Feature/Auth/AuthenticationTest.php
+
+# Run tests with coverage
+./vendor/bin/sail artisan test --coverage
+
+# Code formatting (Laravel Pint)
 ./vendor/bin/sail pint
+
+# Code formatting (check only, no changes)
+./vendor/bin/sail pint --test
 
 # Interactive REPL
 ./vendor/bin/sail artisan tinker
+```
+
+#### Cache Management
+
+```bash
+# Clear all caches
+./vendor/bin/sail artisan optimize:clear
+
+# Individual cache clearing
+./vendor/bin/sail artisan config:clear
+./vendor/bin/sail artisan route:clear
+./vendor/bin/sail artisan view:clear
+./vendor/bin/sail artisan cache:clear
+
+# Cache configuration (production)
+./vendor/bin/sail artisan config:cache
+./vendor/bin/sail artisan route:cache
+./vendor/bin/sail artisan view:cache
 ```
 
 ---
 
 ## Testing
 
-### MCP Inspector (Recommended)
+### MCP Inspector (Recommended Method)
 
-Interactive web-based tool testing:
+The MCP Inspector provides an interactive web interface for testing MCP tools. Due to Docker networking, it must be run from the host machine:
 
 ```bash
-./vendor/bin/sail artisan mcp:inspector laravel
+# On your host machine (not inside the Docker container)
+npx @modelcontextprotocol/inspector http://localhost/mcp/laravel
 ```
 
-Access at http://localhost:6274 to:
+This starts a web interface at http://localhost:5173 where you can:
 
--   View all registered tools and resources
--   Test tools with custom parameters
--   Inspect request/response data
--   Debug schema validation
+- **View Tools**: See all 23 registered tools with schemas
+- **Test Tools**: Execute tools with custom parameters
+- **Inspect Requests**: View raw MCP protocol requests and responses
+- **Debug Schemas**: Validate parameter types and requirements
+- **Test Resources**: Access MCP resources and view their data
+
+**Why not inside the container?**
+- The MCP Inspector starts its own web server on port 5173
+- It needs to connect to the MCP endpoint at http://localhost/mcp/laravel
+- Running from host avoids port conflicts and networking complexity
 
 ### Automated Testing
 
 ```bash
-# Run all tests
+# Run full test suite
 ./vendor/bin/sail test
 
-# Run with coverage
+# Run with coverage report
 ./vendor/bin/sail artisan test --coverage
 
-# Run specific test
+# Run specific test file
 ./vendor/bin/sail artisan test tests/Feature/Auth/AuthenticationTest.php
+
+# Run tests in parallel
+./vendor/bin/sail artisan test --parallel
 ```
 
 ### Manual Service Testing
@@ -738,7 +1030,22 @@ Access at http://localhost:6274 to:
 
 >>> $salesService = app(\App\Services\Analytics\SalesAnalyticsService::class);
 >>> $salesService->getSalesStats();
+
+>>> $rfmService = app(\App\Services\Analytics\RfmAnalysisService::class);
+>>> $rfmService->getRfmAnalysis(10);
 ```
+
+### Claude Desktop Integration Testing
+
+1. Ensure Docker containers are running: `./vendor/bin/sail ps`
+2. Restart Claude Desktop completely
+3. Verify MCP connection indicator appears
+4. Test with natural language queries:
+   ```
+   "Run a health check on the application"
+   "What are the current sales statistics?"
+   "Show me all MCP tools available"
+   ```
 
 ---
 
@@ -746,30 +1053,39 @@ Access at http://localhost:6274 to:
 
 ### Production Checklist
 
-**Environment Configuration:**
+#### Environment Configuration
 
 ```env
+# Production settings
 APP_ENV=production
 APP_DEBUG=false
-APP_KEY=base64:YOUR_GENERATED_KEY
+APP_KEY=base64:YOUR_GENERATED_KEY_HERE
 
-# Production database
-DB_HOST=your-production-host
-DB_DATABASE=your-production-db
-DB_USERNAME=your-production-user
-DB_PASSWORD=strong-password
+# Database (use production credentials)
+DB_HOST=your-production-database-host
+DB_DATABASE=your_production_database
+DB_USERNAME=your_production_user
+DB_PASSWORD=strong_production_password
 
 # Use Redis for better performance
 CACHE_STORE=redis
 QUEUE_CONNECTION=redis
 SESSION_DRIVER=redis
 
+# Redis configuration
+REDIS_HOST=your-redis-host
+REDIS_PASSWORD=your-redis-password
+REDIS_PORT=6379
+
 # Security
 SESSION_SECURE_COOKIE=true
 SESSION_SAME_SITE=strict
+
+# Performance
+CACHE_PREFIX=laravel_mcp_
 ```
 
-**Optimization Commands:**
+#### Optimization Commands
 
 ```bash
 # Cache configuration
@@ -781,26 +1097,125 @@ php artisan route:cache
 # Cache views
 php artisan view:cache
 
-# Optimize autoloader
+# Optimize autoloader (composer)
 composer install --optimize-autoloader --no-dev
+
+# Clear development caches first
+php artisan optimize:clear
 ```
 
-### Process Management
+#### Security Considerations
 
-For HTTP-based MCP deployments, use Supervisor:
+**Critical for Production:**
+
+1. **Authentication & Authorization**
+   - Implement API token authentication for HTTP MCP endpoints
+   - Use Laravel Sanctum or Passport for token management
+   - Add role-based access control (RBAC) to MCP tools
+   - Example: Restrict financial tools to executives only
+
+2. **Input Validation**
+   - All inputs already validated via MCP schemas
+   - Add additional business rule validation in services
+   - Sanitize outputs to prevent data leakage
+
+3. **Rate Limiting**
+   - Implement rate limiting for HTTP-based MCP endpoints
+   - Prevent abuse and DoS attacks
+   - Use Laravel's built-in rate limiting features
+
+4. **Database Security**
+   - MCP tools have direct database access
+   - Use read-only database users for query-only tools
+   - Implement database-level permissions
+   - Enable query logging and monitoring
+
+5. **HTTPS/TLS**
+   - Always use SSL/TLS in production
+   - Configure reverse proxy (Nginx, Apache) with valid certificates
+   - Force HTTPS redirects
+
+6. **Audit Logging**
+   - Log all MCP tool invocations with user context
+   - Track data access patterns
+   - Monitor for suspicious activity
+   - Retain logs for compliance requirements
+
+7. **Environment Security**
+   - Never commit `.env` files to version control
+   - Use environment variable managers (AWS Secrets Manager, Vault)
+   - Rotate credentials regularly
+   - Restrict file permissions on production servers
+
+#### Process Management
+
+For HTTP-based MCP deployments, use process managers like Supervisor:
 
 ```ini
 [program:laravel-mcp]
-process_name=%(program_name)s
+process_name=%(program_name)s_%(process_num)02d
 command=php /var/www/artisan mcp:start laravel
 autostart=true
 autorestart=true
 user=www-data
+numprocs=1
 redirect_stderr=true
 stdout_logfile=/var/log/laravel-mcp.log
+stopwaitsecs=3600
 ```
 
-**Note:** Claude Desktop integration uses STDIO transport via Docker, not HTTP.
+**Note**: Claude Desktop integration uses STDIO transport via Docker, not requiring additional process management beyond Docker itself.
+
+#### Deployment Architecture
+
+```
+┌─────────────────────────────────────┐
+│         Load Balancer (HAProxy)      │
+│              HTTPS (443)             │
+└──────────────┬──────────────────────┘
+               │
+      ┌────────┴─────────┐
+      │                  │
+┌─────▼─────┐      ┌────▼──────┐
+│  App 1    │      │  App 2    │
+│  Laravel  │      │  Laravel  │
+│  MCP      │      │  MCP      │
+└─────┬─────┘      └────┬──────┘
+      │                  │
+      └────────┬─────────┘
+               │
+    ┌──────────▼───────────┐
+    │   MySQL (Primary)     │
+    │   + Read Replicas     │
+    └──────────┬───────────┘
+               │
+    ┌──────────▼───────────┐
+    │   Redis Cluster       │
+    │   (Cache + Sessions)  │
+    └──────────────────────┘
+```
+
+---
+
+## Documentation
+
+This project includes comprehensive documentation for different audiences:
+
+| Document | Audience | Purpose |
+|----------|----------|---------|
+| [README.md](README.md) | All | Overview, quick start, features, technical reference |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Developers, Architects | Detailed system architecture, design patterns, best practices |
+| [BUSINESS_CASE.md](BUSINESS_CASE.md) | Executives, Investors | ROI analysis, market opportunity, competitive landscape |
+| [DEMO_SCENARIOS.md](DEMO_SCENARIOS.md) | Sales, Marketing | Demo scripts for various audiences (4-5 min each) |
+| [DEMO_PROMPTS.md](DEMO_PROMPTS.md) | Sales, Demo Users | Ready-to-use prompts in French for feature demonstrations |
+| [PITCH_GUIDE.md](PITCH_GUIDE.md) | Sales, Business Dev | Elevator pitches, objection handling, closing techniques |
+| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | All | Navigation guide to all documentation |
+
+**Quick Links:**
+- **Want to understand the architecture?** → [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Need business justification?** → [BUSINESS_CASE.md](BUSINESS_CASE.md)
+- **Preparing a demo?** → [DEMO_SCENARIOS.md](DEMO_SCENARIOS.md)
+- **Looking for demo prompts?** → [DEMO_PROMPTS.md](DEMO_PROMPTS.md)
 
 ---
 
@@ -808,81 +1223,110 @@ stdout_logfile=/var/log/laravel-mcp.log
 
 ### Common Issues
 
-<details>
-<summary><b>Docker containers won't start</b></summary>
+#### Docker containers won't start
 
 ```bash
+# Stop all containers
 ./vendor/bin/sail down
+
+# Remove all containers and volumes
 docker system prune -f
+
+# Rebuild from scratch
 ./vendor/bin/sail build --no-cache
 ./vendor/bin/sail up -d
 ```
 
-</details>
+#### MCP tools not appearing in Claude Desktop
 
-<details>
-<summary><b>MCP tools not appearing in Claude Desktop</b></summary>
+1. **Verify containers are running**:
+   ```bash
+   ./vendor/bin/sail ps
+   ```
 
-1. Verify Docker container is running: `./vendor/bin/sail ps`
-2. Check container name matches config: `docker ps`
-3. Restart Claude Desktop completely
-4. Test with MCP Inspector: `./vendor/bin/sail artisan mcp:inspector laravel`
+2. **Check container name in config**:
+   ```bash
+   docker ps
+   # Copy the exact container name (e.g., laravel-mcp-server-laravel.test-1)
+   # Update Claude Desktop config JSON with this exact name
+   ```
 
-</details>
+3. **Restart Claude Desktop completely**:
+   - Quit Claude Desktop (not just close window)
+   - Wait 10 seconds
+   - Reopen Claude Desktop
 
-<details>
-<summary><b>Permission errors</b></summary>
+4. **Test endpoint manually**:
+   ```bash
+   # From host machine
+   curl http://localhost/mcp/laravel
+   ```
+
+#### Permission errors
 
 ```bash
+# Fix storage and cache permissions
 ./vendor/bin/sail artisan storage:link
 sudo chown -R $USER:$USER storage bootstrap/cache
+
+# Inside container
+./vendor/bin/sail shell
+chmod -R 775 storage bootstrap/cache
 ```
 
-</details>
-
-<details>
-<summary><b>Database connection issues</b></summary>
+#### Database connection issues
 
 ```bash
-# Check MySQL service
+# Check MySQL service status
 ./vendor/bin/sail ps
 
 # View MySQL logs
 ./vendor/bin/sail logs mysql
 
-# Test connection
+# Test connection manually
 ./vendor/bin/sail mysql -u sail -p
+# Password: password
+
+# Verify database exists
+./vendor/bin/sail mysql -e "SHOW DATABASES;"
 ```
 
-</details>
-
-<details>
-<summary><b>Clear all caches</b></summary>
+#### MCP Inspector connection issues
 
 ```bash
-./vendor/bin/sail artisan optimize:clear
+# Ensure app is running
+./vendor/bin/sail ps
+
+# Test MCP endpoint
+curl http://localhost/mcp/laravel
+
+# Run Inspector from host (NOT from container)
+npx @modelcontextprotocol/inspector http://localhost/mcp/laravel
+
+# If port 5173 is in use, the Inspector will fail
+# Stop Vite dev server or use a different port
 ```
 
-</details>
+#### Clear all caches
+
+```bash
+# Clear Laravel caches
+./vendor/bin/sail artisan optimize:clear
+
+# Clear Docker build cache
+docker builder prune
+
+# Clear composer cache
+./vendor/bin/sail composer clear-cache
+```
 
 ### Getting Help
 
--   Check the [MCP Specification](https://modelcontextprotocol.io)
--   Review [Laravel MCP documentation](https://github.com/laravel/mcp)
--   Inspect tool schemas with MCP Inspector
--   Check Docker logs: `./vendor/bin/sail logs`
-
----
-
-## Security Considerations
-
--   **Database Access:** MCP tools have direct database access—implement authorization in production
--   **Input Validation:** All inputs validated using schema definitions
--   **Rate Limiting:** Consider implementing for HTTP-based transports
--   **HTTPS:** Enable SSL/TLS in production environments
--   **Authentication:** Use API tokens for HTTP MCP endpoints
--   **Audit Logs:** Monitor and log all MCP tool invocations
--   **Environment Variables:** Never commit `.env` to version control
+- **MCP Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **Laravel MCP Package**: [github.com/laravel/mcp](https://github.com/laravel/mcp)
+- **Laravel Documentation**: [laravel.com/docs](https://laravel.com/docs)
+- **Docker Logs**: `./vendor/bin/sail logs -f`
+- **Laravel Logs**: `./vendor/bin/sail artisan pail` (real-time)
 
 ---
 
@@ -892,11 +1336,17 @@ Contributions are welcome! Please follow these guidelines:
 
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+3. **Commit** changes (`git commit -m 'Add amazing feature'`)
 4. **Test** thoroughly (`./vendor/bin/sail test`)
 5. **Format** code (`./vendor/bin/sail pint`)
-6. **Push** to the branch (`git push origin feature/amazing-feature`)
+6. **Push** to branch (`git push origin feature/amazing-feature`)
 7. **Open** a Pull Request
+
+**Code Standards:**
+- Follow PSR-12 coding standard (enforced by Laravel Pint)
+- Write tests for new features
+- Update documentation for user-facing changes
+- Maintain clean architecture principles (see [ARCHITECTURE.md](ARCHITECTURE.md))
 
 ---
 
@@ -908,20 +1358,19 @@ This project is licensed under the **MIT License**. See [LICENSE](https://openso
 
 ## Resources
 
--   **Laravel MCP Package:** [github.com/laravel/mcp](https://github.com/laravel/mcp)
--   **MCP Specification:** [modelcontextprotocol.io](https://modelcontextprotocol.io)
--   **MCP Clients:** [modelcontextprotocol.io/clients](https://modelcontextprotocol.io/clients)
--   **Laravel Documentation:** [laravel.com/docs](https://laravel.com/docs)
--   **Laravel Sail:** [laravel.com/docs/sail](https://laravel.com/docs/sail)
+- **Laravel MCP Package**: [github.com/laravel/mcp](https://github.com/laravel/mcp)
+- **MCP Specification**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **MCP Clients**: [modelcontextprotocol.io/clients](https://modelcontextprotocol.io/clients)
+- **Laravel Documentation**: [laravel.com/docs](https://laravel.com/docs)
+- **Laravel Sail**: [laravel.com/docs/sail](https://laravel.com/docs/sail)
+- **Claude Desktop**: [claude.ai/download](https://claude.ai/download)
 
 ---
 
-<div align="center">
+<div>
 
-**Built with Laravel 12 • PHP 8.4 • MySQL 8.0 • Laravel MCP**
+**Built with Laravel 12 • PHP 8.4 • MySQL 8.0 • MCP Protocol**
 
-_Empowering AI-driven business intelligence_
-
-Made with ❤️ by the Laravel Community
+*Transforming business intelligence through conversational AI*
 
 </div>

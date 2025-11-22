@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Models\Product;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -47,6 +48,7 @@ class GetProductInventoryTool extends Tool
 
     /**
      * Handle the tool request.
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
@@ -152,6 +154,6 @@ class GetProductInventoryTool extends Tool
             'timestamp' => now()->toISOString(),
         ];
 
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Services\Analytics\ProductRecommendationService;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -24,7 +25,7 @@ class GetTrendingProductsTool extends Tool
     /**
      * Handle the tool request.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {

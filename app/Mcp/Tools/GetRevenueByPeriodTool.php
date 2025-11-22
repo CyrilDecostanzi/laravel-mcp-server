@@ -4,6 +4,8 @@ namespace App\Mcp\Tools;
 
 use App\Models\Order;
 use Illuminate\JsonSchema\JsonSchema;
+use Illuminate\Support\Collection;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -36,6 +38,7 @@ class GetRevenueByPeriodTool extends Tool
 
     /**
      * Handle the tool request.
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
@@ -65,13 +68,13 @@ class GetRevenueByPeriodTool extends Tool
             'timestamp' => now()->toISOString(),
         ];
 
-        return Response::text(json_encode($data, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     /**
      * Get daily revenue breakdown.
      */
-    private function getDailyRevenue(int $limit)
+    private function getDailyRevenue(int $limit): Collection
     {
         return Order::selectRaw('DATE(created_at) as date, COUNT(*) as orders, SUM(total) as revenue')
             ->where('created_at', '>=', now()->subDays($limit))

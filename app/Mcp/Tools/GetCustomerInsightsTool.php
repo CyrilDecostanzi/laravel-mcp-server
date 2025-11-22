@@ -4,6 +4,7 @@ namespace App\Mcp\Tools;
 
 use App\Services\Analytics\CustomerInsightsService;
 use Illuminate\JsonSchema\JsonSchema;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -35,6 +36,7 @@ class GetCustomerInsightsTool extends Tool
 
     /**
      * Handle the tool request.
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {
@@ -42,6 +44,6 @@ class GetCustomerInsightsTool extends Tool
 
         $result = $this->customerInsightsService->getCustomerInsights($limit);
 
-        return Response::text(json_encode($result, JSON_PRETTY_PRINT));
+        return Response::text(json_encode($result, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 }

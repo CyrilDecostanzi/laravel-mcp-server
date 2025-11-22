@@ -3,6 +3,7 @@
 namespace App\Mcp\Tools;
 
 use App\Services\System\SystemHealthService;
+use JsonException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
@@ -23,7 +24,7 @@ class GetDatabaseInfoTool extends Tool
     /**
      * Handle the tool request.
      *
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function handle(Request $request): Response
     {

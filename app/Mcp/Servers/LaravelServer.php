@@ -28,6 +28,9 @@ use App\Mcp\Tools\SearchUsersTool;
 use App\Mcp\Tools\UpdateOrderStatusTool;
 use App\Mcp\Tools\UpdateProductStockTool;
 use Laravel\Mcp\Server;
+use Laravel\Mcp\Server\Prompt;
+use Laravel\Mcp\Server\Resource;
+use Laravel\Mcp\Server\Tool;
 
 class LaravelServer extends Server
 {
@@ -79,54 +82,42 @@ class LaravelServer extends Server
     /**
      * The tools registered with this MCP server.
      *
-     * @var array<int, class-string<\Laravel\Mcp\Server\Tool>>
+     * @var array<int, class-string<Tool>>
      */
     protected array $tools = [
-        // Advanced Analytics
+        // Advanced Analytics (2 tools)
         GetRfmAnalysisTool::class,
         GetSalesForecastTool::class,
 
-        // Product Intelligence
+        // Product Intelligence (3 tools)
         GetProductRecommendationsTool::class,
         GetTrendingProductsTool::class,
         GetTopProductsTool::class,
 
-        // User Management
+        // User Management (3 tools)
         GetUserStatsTool::class,
         SearchUsersTool::class,
         CreateUserTool::class,
 
-        // Sales Analytics
+        // Sales Analytics (3 tools)
         GetSalesStatsTool::class,
         GetRevenueByPeriodTool::class,
         GetCustomerInsightsTool::class,
 
-        // Order Management (Read & Write)
-
-        // Inventory & Alerts
-        GetInventoryAlertsTool::class,
-        GetProductInventoryTool::class,
-
-        // Search & Details
-        SearchOrdersTool::class,
-        CreateOrderTool::class,
-        UpdateOrderStatusTool::class,
-        GetInvoiceDetailsTool::class,
-
-        // Inventory Management (Read & Write)
+        // Inventory Management (5 tools)
         GetInventoryAlertsTool::class,
         GetProductInventoryTool::class,
         UpdateProductStockTool::class,
         CreateProductTool::class,
         ApplyDiscountTool::class,
 
-        // User Management
-        GetUserStatsTool::class,
-        SearchUsersTool::class,
-        CreateUserTool::class,
+        // Order Management (4 tools)
+        SearchOrdersTool::class,
+        CreateOrderTool::class,
+        UpdateOrderStatusTool::class,
+        GetInvoiceDetailsTool::class,
 
-
-        // System
+        // System Monitoring (3 tools)
         GetSystemInfoTool::class,
         GetDatabaseInfoTool::class,
         HealthCheckTool::class,
@@ -135,7 +126,7 @@ class LaravelServer extends Server
     /**
      * The resources registered with this MCP server.
      *
-     * @var array<int, class-string<\Laravel\Mcp\Server\Resource>>
+     * @var array<int, class-string<Resource>>
      */
     protected array $resources = [
         AppSettingsResource::class,
@@ -145,7 +136,7 @@ class LaravelServer extends Server
     /**
      * The prompts registered with this MCP server.
      *
-     * @var array<int, class-string<\Laravel\Mcp\Server\Prompt>>
+     * @var array<int, class-string<Prompt>>
      */
     protected array $prompts = [
         //
