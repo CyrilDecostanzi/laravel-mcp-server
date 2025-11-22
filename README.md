@@ -1,4 +1,4 @@
-# Laravel MCP Server
+# Laravel MCP Server --- E-commerce Demo
 
 ### AI Integration for Business Intelligence
 
