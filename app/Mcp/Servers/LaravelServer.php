@@ -25,7 +25,7 @@ class LaravelServer extends Server
     /**
      * The MCP server's name.
      */
-    protected string $name = 'Laravel E-commerce MCP Server';
+    protected string $name = 'Laravel E-commerce MCP Server Demo';
 
     /**
      * The MCP server's version.
@@ -77,21 +77,21 @@ class LaravelServer extends Server
         GetUserStatsTool::class,
         SearchUsersTool::class,
         CreateUserTool::class,
-        
+
         // Sales Analytics
         GetSalesStatsTool::class,
         GetRevenueByPeriodTool::class,
         GetTopProductsTool::class,
         GetCustomerInsightsTool::class,
-        
+
         // Inventory & Alerts
         GetInventoryAlertsTool::class,
         GetProductInventoryTool::class,
-        
+
         // Search & Details
         SearchOrdersTool::class,
         GetInvoiceDetailsTool::class,
-        
+
         // System
         GetSystemInfoTool::class,
         GetDatabaseInfoTool::class,
